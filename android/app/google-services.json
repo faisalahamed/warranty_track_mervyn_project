@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1052315273372",
+    "project_id": "mervyn-project",
+    "storage_bucket": "mervyn-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052315273372:android:2d0e88a68513821fc64559",
+        "android_client_info": {
+          "package_name": "com.example.warranty_track"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052315273372-29pbimu9413mqe3o2mhci8k0ug60ird2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBYjO2XQ5F-t6m9DxhoGfkeUZOxzYxDH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052315273372-29pbimu9413mqe3o2mhci8k0ug60ird2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
