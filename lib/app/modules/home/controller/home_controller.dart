@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
+import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
-
 
 class HomeViewController extends GetxController {
   TextEditingController amount = TextEditingController();
@@ -17,6 +17,7 @@ class HomeViewController extends GetxController {
   TextEditingController shopPurchached = TextEditingController();
   TextEditingController personWhoServed = TextEditingController();
   TextEditingController note = TextEditingController();
+  AuthService _authService = Get.find();
   // var warrantyTotalYear = '1'.obs;
   var loading = false.obs;
   var long = 0.0.obs;
@@ -71,6 +72,12 @@ class HomeViewController extends GetxController {
     String receiptImaurl = 'null';
     String sellerimageurl = 'null';
 
+    if (_authService.user == null) {
+      CommonFunc().customSnackbar(msg: "Not a Valid User", isTrue: false);
+      nofunc!();
+      loading.value = false;
+      return;
+    }
     if (category == null) {
       CommonFunc().customSnackbar(msg: "Select Category", isTrue: false);
       nofunc!();
@@ -124,6 +131,7 @@ class HomeViewController extends GetxController {
     // }
 
     TransactionModel transactionModel = TransactionModel(
+      uid: _authService.user!.uid,
       category: cat!,
       dateadded: DateTime.now().toIso8601String(),
       image: imageurl,

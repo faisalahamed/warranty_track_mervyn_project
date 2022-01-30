@@ -12,6 +12,7 @@ import 'package:warranty_track/app/modules/auth/controller/login_controller.dart
 import 'package:warranty_track/app/modules/home/controller/home_controller.dart';
 import 'package:warranty_track/app/modules/home/view/home_widgets/map_dialog.dart';
 import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
 import 'package:warranty_track/common/constants.dart';
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late bool permissionGranted;
   final SettingController _settingController = Get.find();
   final LoginController _loginController = Get.find();
+  AuthService _authService = Get.find();
   String? _warrantyYear = '1';
 
   late double timeDilation;
@@ -419,14 +421,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 snap.data.snapshot.value != null) {
                               List<CategoryModel> _catList = [];
                               Map data = snap.data.snapshot.value;
-                              data.forEach(
-                                (key, value) {
+                              data.forEach((key, value) {
+                                if (_authService.user != null &&
+                                    value['uid'] == _authService.user!.uid) {
                                   _catList.add(CategoryModel(
+                                      uid: _authService.user!.uid,
                                       id: key,
                                       catName: value['name'],
                                       count: value['count']));
-                                },
-                              );
+                                }
+                              });
 
                               if (_catList.length > 1) {
                                 _catList.sort((a, b) {

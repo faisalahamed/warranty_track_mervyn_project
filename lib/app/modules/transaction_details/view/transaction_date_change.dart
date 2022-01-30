@@ -177,7 +177,7 @@ class _TranseactionWarrantyDateState extends State<TranseactionWarrantyDate> {
                 ),
                 const SizedBox(width: 10),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     FirebaseConf().updateTransaction(widget.transectionItem.id,
                         'warrantyyearcount', selectedVlue);
                     FirebaseConf().updateTransaction(widget.transectionItem.id,
@@ -188,8 +188,11 @@ class _TranseactionWarrantyDateState extends State<TranseactionWarrantyDate> {
                     // Get.to(() => TransactionDetailScreen(
                     // transectionItem: widget.transectionItem));
                     // Get.to(() => const TransactionScreen());
+
+                    // TransactionModel.fromJson(json, docid)
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
+
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) => TransactionDetailScreen(
                             transectionItem: widget.transectionItem)));

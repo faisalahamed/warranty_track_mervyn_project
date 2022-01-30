@@ -1,10 +1,10 @@
 class Routes {
-
   static const rHome = '/home';
 
   static const rLOGIN = '/login';
   static const rREGISTER = '/register';
   static const rTRANSECTION = '/transection';
+  // static const rTRANSECTIONDetails = '/transectiondetails';
   static const rCATEGORY = '/categories';
   static const rWARRANTY = '/warranty';
   static const rFeedback = '/feedback';

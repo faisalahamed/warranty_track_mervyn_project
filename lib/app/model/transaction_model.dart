@@ -19,6 +19,7 @@ class TransactionModel {
   late String warrantyyearcount;
   late bool isarchived;
   late int timeadded;
+  late String uid;
 
   TransactionModel({
     required this.category,
@@ -26,6 +27,7 @@ class TransactionModel {
     required this.image,
     required this.rimage,
     required this.itemname,
+    required this.uid,
     this.price,
     this.color,
     required this.sellerimage,
@@ -42,6 +44,7 @@ class TransactionModel {
 
   TransactionModel.fromJson(Map<dynamic, dynamic> json, String docid) {
     id = docid;
+    uid = json['uid'];
     category = json['category'];
     dateadded = json['dateadded'];
     image = json['image'];
@@ -64,6 +67,7 @@ class TransactionModel {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
 
+    _data['uid'] = uid;
     _data['category'] = category;
     _data['dateadded'] = dateadded;
     _data['image'] = image;

@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.warranty_track"
+        applicationId "com.example.mervyn_project"
         minSdkVersion flutter.minSdkVersion=25
         targetSdkVersion flutter.targetSdkVersion
         // compileSdkVersion flutter.compileSdkVersion=31

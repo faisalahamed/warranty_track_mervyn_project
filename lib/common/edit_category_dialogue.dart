@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:warranty_track/app/model/category_model.dart';
 import 'package:warranty_track/app/modules/home/controller/home_controller.dart';
+import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/constants.dart';
-
 
 class EditCategoryDialogue extends StatefulWidget {
   final Function func;
@@ -19,6 +20,7 @@ class EditCategoryDialogue extends StatefulWidget {
 
 class _EditCategoryDialogueState extends State<EditCategoryDialogue> {
   HomeViewController homeScreenController = HomeViewController();
+  AuthService _authService = Get.find();
   final Stream _api = FirebaseConf().fref.child("Categories").onValue;
   String? _selectedString;
 
@@ -66,10 +68,14 @@ class _EditCategoryDialogueState extends State<EditCategoryDialogue> {
                   List<CategoryModel> _catList = [];
                   Map data = snap.data.snapshot.value;
                   data.forEach((key, value) {
-                    _catList.add(CategoryModel(
-                        id: key,
-                        catName: value['name'],
-                        count: value['count']));
+                    if (_authService.user != null &&
+                        _authService.user!.uid == value['uid']) {
+                      _catList.add(CategoryModel(
+                          uid: _authService.user!.uid,
+                          id: key,
+                          catName: value['name'],
+                          count: value['count']));
+                    }
                   });
 
                   if (_catList.length > 1) {

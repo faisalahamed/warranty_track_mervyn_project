@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:warranty_track/app/modules/category/view/categories_screen.dart';
-import 'package:warranty_track/app/modules/feedback/view/feedback_screen.dart';
-import 'package:warranty_track/app/modules/settings/view/settings_screen.dart';
-import 'package:warranty_track/app/modules/transaction/view/transaction_screen.dart';
-import 'package:warranty_track/app/modules/warranty/view/warranty_screen.dart';
 import 'package:warranty_track/app/routes/routes.dart';
 import 'package:warranty_track/common/constants.dart';
 
@@ -75,7 +70,8 @@ class MyNavigationDrawer extends StatelessWidget {
             title: 'Transactions',
             onTap: () {
               Navigator.pop(context);
-              Get.to(() => const TransactionView());
+              // Get.to(() => const TransactionView());
+              Get.toNamed(Routes.rTRANSECTION);
             },
           ),
           drawerItem(
@@ -89,21 +85,24 @@ class MyNavigationDrawer extends StatelessWidget {
             title: 'Categories',
             onTap: () {
               Navigator.pop(context);
-              Get.to(() => CategoriesScreen());
+              // Get.to(() => CategoriesScreen());
+              Get.toNamed(Routes.rCATEGORY);
             },
           ),
           drawerItem(
             title: 'Feedback',
             onTap: () {
               Navigator.pop(context);
-              Get.to(() => const FeedbackScreen());
+              // Get.to(() => const FeedbackScreen());
+              Get.toNamed(Routes.rFeedback);
             },
           ),
           drawerItem(
             title: 'Settings',
             onTap: () {
               Navigator.pop(context);
-              Get.to(() => const SettingsScreen());
+              // Get.to(() => const SettingsScreen());
+              Get.toNamed(Routes.rSettings);
             },
           ),
           drawerItem(

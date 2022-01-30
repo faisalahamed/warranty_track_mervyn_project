@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:warranty_track/app/modules/auth/view/login_page.dart';
 import 'package:warranty_track/app/modules/home/view/home_screen.dart';
 
@@ -65,6 +66,38 @@ class AuthService extends GetxService {
     } catch (e) {
       Get.snackbar(
         "Error signing out",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    print('hello=============');
+
+    try {
+      final googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser != null) {
+        final googleAuth = await googleUser.authentication;
+        if (googleAuth.idToken != null) {
+          final userCredential = await auth.signInWithCredential(
+            GoogleAuthProvider.credential(
+                idToken: googleAuth.idToken,
+                accessToken: googleAuth.accessToken),
+          );
+          print(userCredential.user);
+        }
+      } else {
+        Get.snackbar(
+          "Error signing in",
+          'Something went wrong',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Error signing in",
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );

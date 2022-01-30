@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1052315273372",
+    "firebase_url": "https://mervyn-project-default-rtdb.firebaseio.com",
     "project_id": "mervyn-project",
     "storage_bucket": "mervyn-project.appspot.com"
   },
@@ -9,10 +10,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:1052315273372:android:2d0e88a68513821fc64559",
         "android_client_info": {
-          "package_name": "com.example.warranty_track"
+          "package_name": "com.example.mervyn_project"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1052315273372-75tk6rd926lmonldcb025devlnjhjmo2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mervyn_project",
+            "certificate_hash": "10683b753af922246c3eb2426093bbaebf83d936"
+          }
+        },
         {
           "client_id": "1052315273372-29pbimu9413mqe3o2mhci8k0ug60ird2.apps.googleusercontent.com",
           "client_type": 3

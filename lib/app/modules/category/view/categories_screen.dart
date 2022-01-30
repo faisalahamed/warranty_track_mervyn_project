@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:warranty_track/app/model/category_model.dart';
 import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/add_category_dialogue.dart';
 import 'package:warranty_track/common/constants.dart';
@@ -16,6 +17,7 @@ class CategoriesScreen extends StatefulWidget {
 class _CategoriesScreenState extends State<CategoriesScreen> {
   SettingController settingController = Get.find();
   List<CategoryModel> _catList = [];
+  AuthService _authService = Get.find();
 
   deleteAlertDialogue(String id, Function remove) {
     showDialog(
@@ -69,13 +71,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Future<void> addCatList() async {
+    // print(_authService.user?.uid);
     List<CategoryModel> _dummy = [];
     await FirebaseConf().fref.child("Categories").once().then((snap) {
       if (snap.value != null) {
         Map data = snap.value;
         data.forEach((key, value) {
-          _dummy.add(CategoryModel(
-              id: key, catName: value['name'], count: value['count']));
+          if (_authService.user != null &&
+              value['uid'] == _authService.user!.uid) {
+            _dummy.add(CategoryModel(
+                id: key,
+                catName: value['name'],
+                count: value['count'],
+                uid: _authService.user!.uid));
+          }
         });
 
         if (_dummy.length > 1) {

@@ -2,6 +2,7 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:warranty_track/app/middlewares/auth_middleware.dart';
 import 'package:warranty_track/app/modules/auth/binding/login_binding.dart';
+import 'package:warranty_track/app/modules/auth/binding/signup_binding.dart';
 import 'package:warranty_track/app/modules/auth/view/login_page.dart';
 import 'package:warranty_track/app/modules/auth/view/signup_page.dart';
 import 'package:warranty_track/app/modules/category/view/categories_screen.dart';
@@ -28,13 +29,13 @@ class RoutePage {
     GetPage(
       name: Routes.rLOGIN,
       page: () => const LoginView(),
-      // binding: LoginBinding(),
+      binding: LoginBinding(),
       // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.rREGISTER,
-      page: () => const SignUpPage(),
-      binding: LoginBinding(),
+      page: () => const SignUpView(),
+      binding: SignUpBinding(),
     ),
     GetPage(
       name: Routes.rTRANSECTION,
@@ -42,6 +43,12 @@ class RoutePage {
       page: () => const TransactionView(),
       middlewares: [AuthMiddleware()],
     ),
+    // GetPage(
+    //   name: Routes.rTRANSECTIONDetails,
+    //   // binding: TransactionBinding(),
+    //   page: () => TransactionDetailScreen(transectionItem: ,),
+    //   middlewares: [AuthMiddleware()],
+    // ),
 
     GetPage(
       name: Routes.rCATEGORY,

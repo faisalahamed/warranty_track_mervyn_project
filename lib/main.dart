@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:warranty_track/app/modules/auth/controller/login_controller.dart';
+import 'package:warranty_track/app/modules/auth/controller/signup_controller.dart';
 import 'package:warranty_track/app/modules/home/controller/home_controller.dart';
 import 'package:warranty_track/app/modules/transaction/controller/transaction_controller.dart';
 import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
@@ -16,6 +17,7 @@ void main() async {
   Get.put(AuthService());
   // await Get.putAsync(() => AuthService().init());
   Get.put(LoginController());
+  Get.put(SignUpController());
   Get.put(HomeViewController());
   Get.put(TransactionController());
   Get.put(SettingController());

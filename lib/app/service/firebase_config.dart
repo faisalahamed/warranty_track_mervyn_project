@@ -41,10 +41,11 @@ class FirebaseConf {
   }
 
 // Category Database
-  Future<void> addCategory(String category) async {
+  Future<void> addCategory(String category, String uid) async {
     await fref.child('Categories').push().set({
       "name": category,
       "count": 0,
+      "uid": uid,
     });
   }
 

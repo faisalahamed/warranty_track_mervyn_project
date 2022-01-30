@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     
    <application
-        android:label="warranty_track"
+        android:label="Warranty Track"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
             <meta-data android:name="com.google.android.geo.API_KEY"

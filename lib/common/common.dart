@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:warranty_track/app/routes/routes.dart';
 import 'package:warranty_track/common/constants.dart';
-
 
 class CommonFunc {
   void customSnackbar({required String msg, required bool isTrue}) {
@@ -24,8 +24,10 @@ class CommonFunc {
       margin: const EdgeInsets.only(bottom: 40, left: 15, right: 15),
       onTap: (GetSnackBar snackBar) {
         // Get.to(
-        //   () => const TransactionScreen(),
+        //   () => const TransactionView(),
         // );
+        Get.toNamed(Routes.rTRANSECTION);
+
       },
       duration: const Duration(seconds: 3),
       // titleText: Text('View Your Submission '),

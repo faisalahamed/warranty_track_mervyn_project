@@ -4,6 +4,7 @@ import 'package:warranty_track/app/model/transaction_model.dart';
 import 'package:warranty_track/app/modules/warranty/controller/warranty_controller.dart';
 import 'package:warranty_track/app/modules/warranty/view/warranty_widget.dart/warranty_appbar.dart';
 import 'package:warranty_track/app/modules/warranty/view/warranty_widget.dart/warranty_item.dart';
+import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/constants.dart';
 
@@ -14,8 +15,15 @@ class WarrantyScreen extends GetView<WarrantyController> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // WarrantyController controller = Get.find();
+    AuthService _authService = Get.find();
 
-    final Stream _api = FirebaseConf().fref.child("Details").onValue;
+    final Stream _api = FirebaseConf()
+        .fref
+        .child("Details")
+        .orderByChild('uid')
+        .equalTo(_authService.user!.uid)
+        .onValue;
+
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60.0),
