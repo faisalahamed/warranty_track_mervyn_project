@@ -18,6 +18,7 @@ class HomeViewController extends GetxController {
   TextEditingController personWhoServed = TextEditingController();
   TextEditingController note = TextEditingController();
   AuthService _authService = Get.find();
+  bool currentUserSharedStatus = false;
   // var warrantyTotalYear = '1'.obs;
   var loading = false.obs;
   var long = 0.0.obs;
@@ -77,6 +78,11 @@ class HomeViewController extends GetxController {
       nofunc!();
       loading.value = false;
       return;
+    } else {
+      print(currentUserSharedStatus);
+      currentUserSharedStatus =
+          await FirebaseConf().currentUserSharedStatus(_authService.user!.uid);
+      print('========================$currentUserSharedStatus');
     }
     if (category == null) {
       CommonFunc().customSnackbar(msg: "Select Category", isTrue: false);
@@ -149,6 +155,7 @@ class HomeViewController extends GetxController {
       warrantyyearcount: warrantyyearcount,
       isarchived: false,
       timeadded: DateTime.now().millisecondsSinceEpoch,
+      isShared: currentUserSharedStatus,
     );
 
     // Add Transection To Db

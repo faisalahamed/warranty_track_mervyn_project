@@ -15,11 +15,12 @@ class FirebaseConf {
   final dbstore = FirebaseStorage.instance.ref();
   final ffs = FirebaseFirestore.instance;
 
+// USER TABLE==============================================================================
   void addUserSignup(String uid, String? email, String? fullname) async {
     await ffs.collection('user').doc(uid).set({
       'email': email,
       'fullname': fullname,
-      // 'shared': 1,
+      'shared': false,
     }, SetOptions(merge: true));
   }
 
@@ -29,6 +30,19 @@ class FirebaseConf {
     });
   }
 
+  Future currentUserSharedStatus(String uid) async {
+    var p = await ffs.collection('user').doc(uid).get()
+      ..data();
+    // return p['shared'];
+    // print(x);
+    if (p['shared'] != null) {
+      // print(p['shared']);
+      return p['shared'];
+    } else
+      return false;
+  }
+
+// Transection TABLE==============================================================================
   Future<void> addTransectionToDB(
       TransactionModel transactionModel, Function? func) async {
     await fref
@@ -56,25 +70,6 @@ class FirebaseConf {
     });
   }
 
-// Category Database
-  Future<void> addCategory(String category, String uid) async {
-    await fref.child('Categories').push().set({
-      "name": category,
-      "count": 0,
-      "uid": uid,
-    });
-  }
-
-  Future<void> deleteCategory(String id) async {
-    await fref.child('Categories').child(id).remove();
-  }
-
-  void reorderFire(List<CategoryModel> category) {
-    for (int i = 0; i < category.length; i++) {
-      fref.child("Categories").child(category[i].id).child("count").set(i);
-    }
-  }
-
   void updateTransaction(String id, String title, dynamic value) async {
     await fref.child("Details").child(id).child(title).set(value);
   }
@@ -100,5 +95,24 @@ class FirebaseConf {
             .catchError((e) => debugPrint('delete image error'))
         : null;
     await fref.child('Details').child(transactionModel.id).remove();
+  }
+
+// Category Database TABLE==============================================================================
+  Future<void> addCategory(String category, String uid) async {
+    await fref.child('Categories').push().set({
+      "name": category,
+      "count": 0,
+      "uid": uid,
+    });
+  }
+
+  Future<void> deleteCategory(String id) async {
+    await fref.child('Categories').child(id).remove();
+  }
+
+  void reorderFire(List<CategoryModel> category) {
+    for (int i = 0; i < category.length; i++) {
+      fref.child("Categories").child(category[i].id).child("count").set(i);
+    }
   }
 }

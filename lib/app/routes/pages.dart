@@ -9,6 +9,8 @@ import 'package:warranty_track/app/modules/category/view/categories_screen.dart'
 import 'package:warranty_track/app/modules/feedback/view/feedback_screen.dart';
 import 'package:warranty_track/app/modules/home/bindings/home_binding.dart';
 import 'package:warranty_track/app/modules/home/view/home_screen.dart';
+import 'package:warranty_track/app/modules/public_dashboard/binding/public_binding.dart';
+import 'package:warranty_track/app/modules/public_dashboard/view/public_dashboard.dart';
 import 'package:warranty_track/app/modules/settings/binding/settings_binding.dart';
 import 'package:warranty_track/app/modules/settings/view/settings_screen.dart';
 import 'package:warranty_track/app/modules/transaction/binding/transaction_binding.dart';
@@ -74,6 +76,12 @@ class RoutePage {
       page: () => const SettingsScreen(),
       binding: SettingsBinding(),
       middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.rPublicdashboard,
+      page: () => const PublicDashboard(),
+      binding: PublicBinding(),
+      // middlewares: [AuthMiddleware()],
     ),
     // GetPage(name: Routes.RATING, page: () => RatingView(), binding: RatingBinding(), middlewares: [AuthMiddleware()]),
     // GetPage(name: Routes.CHAT, page: () => ChatsView(), binding: RootBinding(), middlewares: [AuthMiddleware()]),

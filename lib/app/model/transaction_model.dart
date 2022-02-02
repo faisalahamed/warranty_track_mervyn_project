@@ -20,27 +20,28 @@ class TransactionModel {
   late bool isarchived;
   late int timeadded;
   late String uid;
+  late bool isShared;
 
-  TransactionModel({
-    required this.category,
-    required this.dateadded,
-    required this.image,
-    required this.rimage,
-    required this.itemname,
-    required this.uid,
-    this.price,
-    this.color,
-    required this.sellerimage,
-    this.shoppurchached,
-    this.personwhoserved,
-    this.note,
-    this.long,
-    this.lat,
-    required this.warrantytill,
-    required this.warrantyyearcount,
-    required this.isarchived,
-    required this.timeadded,
-  });
+  TransactionModel(
+      {required this.category,
+      required this.dateadded,
+      required this.image,
+      required this.rimage,
+      required this.itemname,
+      required this.uid,
+      this.price,
+      this.color,
+      required this.sellerimage,
+      this.shoppurchached,
+      this.personwhoserved,
+      this.note,
+      this.long,
+      this.lat,
+      required this.warrantytill,
+      required this.warrantyyearcount,
+      required this.isarchived,
+      required this.timeadded,
+      required this.isShared});
 
   TransactionModel.fromJson(Map<dynamic, dynamic> json, String docid) {
     id = docid;
@@ -48,6 +49,7 @@ class TransactionModel {
     category = json['category'];
     dateadded = json['dateadded'];
     image = json['image'];
+    isShared = json['isShared'];
     rimage = json['rimage'];
     itemname = json['itemname'];
     price = json['price'];
@@ -74,6 +76,7 @@ class TransactionModel {
     _data['rimage'] = rimage;
     _data['itemname'] = itemname;
     _data['price'] = price;
+    _data['isShared'] = isShared;
 
     _data['color'] = color;
     _data['sellerimage'] = sellerimage;
