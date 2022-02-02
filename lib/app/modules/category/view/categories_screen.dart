@@ -15,7 +15,7 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  SettingController settingController = Get.find();
+  TransactionDetailsController settingController = Get.find();
   List<CategoryModel> _catList = [];
   AuthService _authService = Get.find();
 

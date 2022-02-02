@@ -14,7 +14,7 @@ class AddCategoryDialogue extends StatefulWidget {
 }
 
 class _AddCategoryDialogueState extends State<AddCategoryDialogue> {
-  SettingController settingController = Get.find();
+  TransactionDetailsController settingController = Get.find();
   List<bool> isSelected = [false, false, false, false, false];
 
   List<String> selectedStringList = [];

@@ -20,7 +20,7 @@ void main() async {
   Get.put(SignUpController());
   Get.put(HomeViewController());
   Get.put(TransactionController());
-  Get.put(SettingController());
+  Get.put(TransactionDetailsController());
   Get.put(WarrantyController());
 
   runApp(const MyApp());

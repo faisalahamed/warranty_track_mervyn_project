@@ -5,7 +5,7 @@ import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
 
-class SettingController extends GetxController {
+class TransactionDetailsController extends GetxController {
   TextEditingController categoryTec = TextEditingController();
   final RxList<CategoryModel> catListRx = <CategoryModel>[].obs;
   AuthService _authService = Get.find();

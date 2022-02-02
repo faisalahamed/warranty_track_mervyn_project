@@ -9,6 +9,7 @@ import 'package:warranty_track/app/modules/category/view/categories_screen.dart'
 import 'package:warranty_track/app/modules/feedback/view/feedback_screen.dart';
 import 'package:warranty_track/app/modules/home/bindings/home_binding.dart';
 import 'package:warranty_track/app/modules/home/view/home_screen.dart';
+import 'package:warranty_track/app/modules/settings/binding/settings_binding.dart';
 import 'package:warranty_track/app/modules/settings/view/settings_screen.dart';
 import 'package:warranty_track/app/modules/transaction/binding/transaction_binding.dart';
 import 'package:warranty_track/app/modules/transaction/view/transaction_screen.dart';
@@ -71,7 +72,7 @@ class RoutePage {
     GetPage(
       name: Routes.rSettings,
       page: () => const SettingsScreen(),
-      // binding: WarrantyBinding(),
+      binding: SettingsBinding(),
       middlewares: [AuthMiddleware()],
     ),
     // GetPage(name: Routes.RATING, page: () => RatingView(), binding: RatingBinding(), middlewares: [AuthMiddleware()]),

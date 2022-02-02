@@ -59,7 +59,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
   // LocationData? _locationData;
   late int _current;
 
-  SettingController settingController = SettingController();
+  TransactionDetailsController settingController = TransactionDetailsController();
 
   List<String> sliderImages = [];
 

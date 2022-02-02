@@ -48,7 +48,7 @@ class _CategoryFilterDialogueState extends State<CategoryFilterDialogue> {
             const SizedBox(
               height: 10,
             ),
-            GetX<SettingController>(builder: (cont) {
+            GetX<TransactionDetailsController>(builder: (cont) {
               if (cont.catListRx.isNotEmpty) {
                 return ListView.builder(
                     padding: const EdgeInsets.symmetric(vertical: 5),

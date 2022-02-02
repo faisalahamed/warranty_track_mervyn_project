@@ -23,6 +23,12 @@ class FirebaseConf {
     }, SetOptions(merge: true));
   }
 
+  void updateUserSharedData(String uid, bool shareStatus) async {
+    await ffs.collection('user').doc(uid).update({
+      'shared': shareStatus,
+    });
+  }
+
   Future<void> addTransectionToDB(
       TransactionModel transactionModel, Function? func) async {
     await fref

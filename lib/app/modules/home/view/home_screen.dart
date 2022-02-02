@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   HomeViewController homeScreenController = Get.find();
   late bool permissionGranted;
-  final SettingController _settingController = Get.find();
+  final TransactionDetailsController _settingController = Get.find();
   final LoginController _loginController = Get.find();
   AuthService _authService = Get.find();
   String? _warrantyYear = '1';
