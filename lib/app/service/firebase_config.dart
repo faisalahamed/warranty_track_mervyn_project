@@ -7,11 +7,21 @@ import 'package:flutter/widgets.dart';
 
 import 'package:warranty_track/app/model/category_model.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseConf {
   final DatabaseReference fref = FirebaseDatabase.instance.reference();
   // final FirebaseAuth fauth = FirebaseAuth.instance;
   final dbstore = FirebaseStorage.instance.ref();
+  final ffs = FirebaseFirestore.instance;
+
+  void addUserSignup(String uid, String? email, String? fullname) async {
+    await ffs.collection('user').doc(uid).set({
+      'email': email,
+      'fullname': fullname,
+      // 'shared': 1,
+    }, SetOptions(merge: true));
+  }
 
   Future<void> addTransectionToDB(
       TransactionModel transactionModel, Function? func) async {

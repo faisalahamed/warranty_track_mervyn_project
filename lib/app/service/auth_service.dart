@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:warranty_track/app/modules/auth/view/login_page.dart';
 import 'package:warranty_track/app/modules/home/view/home_screen.dart';
+import 'package:warranty_track/app/service/firebase_config.dart';
 
 class AuthService extends GetxService {
   FirebaseAuth auth = FirebaseAuth.instance;
+  final googleSignIn = GoogleSignIn();
+
   late Rx<User?> firebaseUser;
 
   User? get user => firebaseUser.value;
@@ -36,8 +39,12 @@ class AuthService extends GetxService {
 
   void createUser(String email, String password) async {
     try {
-      await auth.createUserWithEmailAndPassword(
+      UserCredential _userCred = await auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password);
+      if (_userCred.user != null) {
+        FirebaseConf().addUserSignup(
+            _userCred.user!.uid, _userCred.user!.email, 'My name');
+      }
     } catch (e) {
       Get.snackbar(
         "Error creating Account",
@@ -62,6 +69,9 @@ class AuthService extends GetxService {
 
   void logout() async {
     try {
+      if (googleSignIn.currentUser != null) {
+        googleSignIn.signOut();
+      }
       await auth.signOut();
     } catch (e) {
       Get.snackbar(
@@ -76,7 +86,6 @@ class AuthService extends GetxService {
     print('hello=============');
 
     try {
-      final googleSignIn = GoogleSignIn();
       final googleUser = await googleSignIn.signIn();
       if (googleUser != null) {
         final googleAuth = await googleUser.authentication;
@@ -86,12 +95,17 @@ class AuthService extends GetxService {
                 idToken: googleAuth.idToken,
                 accessToken: googleAuth.accessToken),
           );
-          print(userCredential.user);
+          // Add Gamil user Details to USer FirebaseFirestore database;
+          // FirebaseConf().addUserSignup(userCredential.user!.uid);
+          if (userCredential.user != null) {
+            FirebaseConf().addUserSignup(userCredential.user!.uid,
+                userCredential.user!.displayName, userCredential.user!.email);
+          }
         }
       } else {
         Get.snackbar(
-          "Error signing in",
-          'Something went wrong',
+          "Signing In Cancel",
+          'Something went wrong.Please try again',
           snackPosition: SnackPosition.BOTTOM,
         );
       }
