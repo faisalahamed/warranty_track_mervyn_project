@@ -113,6 +113,14 @@ class MyNavigationDrawer extends StatelessWidget {
               Get.toNamed(Routes.rWARRANTY);
             },
           ),
+          drawerItem(
+            title: 'Global Dashboard',
+            onTap: () {
+              Navigator.pop(context);
+              // Get.to(() => const WarrantyScreen());
+              Get.toNamed(Routes.rPublicdashboard);
+            },
+          ),
         ],
       ),
     );

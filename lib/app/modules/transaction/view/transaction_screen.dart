@@ -60,6 +60,8 @@ class _TransactionViewState extends State<TransactionView> {
         .child("Details")
         .orderByChild('uid')
         .equalTo(_authService.user!.uid)
+        // .orderByChild('isShared')
+        // .equalTo(true)
         .onValue;
     List<Color> _rendColor = [
       AppColor.successColor,
