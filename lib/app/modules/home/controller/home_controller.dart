@@ -135,7 +135,7 @@ class HomeViewController extends GetxController {
       },
     );
     // }
-    if (amount.text.trim() != '' || receiptImaurl != 'null') {
+    if (amount.text.trim() == '' || receiptImaurl == 'null') {
       currentUserSharedStatus = false;
     }
 
