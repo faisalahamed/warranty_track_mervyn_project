@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
 import 'package:warranty_track/app/modules/transaction/controller/transaction_controller.dart';
 import 'package:warranty_track/app/modules/transaction_details/view/transaction_detail_screen.dart';
-import 'package:warranty_track/app/service/auth_service.dart';
+// import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/category_filter_dialogue.dart';
 import 'package:warranty_track/common/constants.dart';
@@ -25,7 +25,7 @@ class _PublicDashboardState extends State<PublicDashboard> {
   DateTime? _start;
   DateTime? _end;
   TransactionController transactionController = Get.find();
-  AuthService _authService = Get.find();
+  // AuthService _authService = Get.find();
 
   categoryWiseFilterDialogue() {
     showDialog(

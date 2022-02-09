@@ -28,7 +28,7 @@ class HomeViewController extends GetxController {
 
   final FirebaseConf _firebaseConf = FirebaseConf();
 
-  Future<LocationData?> getCurrentLocation() async {
+  Future getCurrentLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
 
