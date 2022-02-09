@@ -5,7 +5,7 @@ import 'package:warranty_track/app/service/firebase_config.dart';
 
 class SettingsController extends GetxController {
   var isEnabled = true.obs;
-  AuthService _authService = AuthService();
+  AuthService authService = AuthService();
 
   @override
   void onInit() async {
@@ -14,16 +14,23 @@ class SettingsController extends GetxController {
   }
 
   void lista() async {
-    if (_authService.auth.currentUser != null) {
+    if (authService.auth.currentUser != null) {
       isEnabled.value = await FirebaseConf()
-          .currentUserSharedStatus(_authService.auth.currentUser!.uid);
+          .currentUserSharedStatus(authService.auth.currentUser!.uid);
     }
   }
 
   void updateUserShareStatus() {
-    if (_authService.auth.currentUser != null) {
+    if (authService.auth.currentUser != null) {
       FirebaseConf().updateUserSharedData(
-          _authService.auth.currentUser!.uid, isEnabled.value);
+          authService.auth.currentUser!.uid, isEnabled.value);
+    }
+  }
+
+  void updateShareStatusOfTransaction() {
+    if (authService.auth.currentUser != null) {
+      FirebaseConf().updateShareStatusOfTransaction(
+          authService.auth.currentUser!.uid, isEnabled.value);
     }
   }
 }

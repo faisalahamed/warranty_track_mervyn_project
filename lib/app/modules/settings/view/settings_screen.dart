@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:warranty_track/app/modules/settings/controller/settings_controller.dart';
+import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/common/constants.dart';
 
 class SettingsScreen extends GetView<SettingsController> {
@@ -41,6 +42,9 @@ class SettingsScreen extends GetView<SettingsController> {
                   controller.isEnabled.value = val;
                   controller.updateUserShareStatus();
                   // TODO: Update all user transaction of shared settings
+
+              
+                  controller.updateShareStatusOfTransaction();
                 },
               ),
             ),

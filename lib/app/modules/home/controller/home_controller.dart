@@ -135,6 +135,9 @@ class HomeViewController extends GetxController {
       },
     );
     // }
+    if (amount.text.trim() != '' || receiptImaurl != 'null') {
+      currentUserSharedStatus = false;
+    }
 
     TransactionModel transactionModel = TransactionModel(
       uid: _authService.user!.uid,

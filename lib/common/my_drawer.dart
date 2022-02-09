@@ -114,7 +114,7 @@ class MyNavigationDrawer extends StatelessWidget {
             },
           ),
           drawerItem(
-            title: 'Global Dashboard',
+            title: 'web version (Test)',
             onTap: () {
               Navigator.pop(context);
               // Get.to(() => const WarrantyScreen());

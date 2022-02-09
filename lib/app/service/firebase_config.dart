@@ -43,6 +43,36 @@ class FirebaseConf {
   }
 
 // Transection TABLE==============================================================================
+  Future updateShareStatusOfTransaction(String uid, bool shareStatus) async {
+    var p = await FirebaseConf()
+        .fref
+        .reference()
+        .child("Details")
+        .orderByChild('uid')
+        .equalTo(uid)
+        .once();
+    if (p.value != null) {
+      Map data = p.value;
+      data.forEach((key, value) async {
+        print(value['image']);
+        if (value['price'] != '' && value['rimage'] != 'null') {
+          await fref
+              .child("Details")
+              .reference()
+              .child(key)
+              .update({'isShared': shareStatus});
+          // print('here');
+        } else {
+          await fref
+              .child("Details")
+              .reference()
+              .child(key)
+              .update({'isShared': false});
+        }
+      });
+    }
+  }
+
   Future<void> addTransectionToDB(
       TransactionModel transactionModel, Function? func) async {
     await fref
