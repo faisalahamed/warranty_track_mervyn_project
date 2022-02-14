@@ -145,4 +145,13 @@ class FirebaseConf {
       fref.child("Categories").child(category[i].id).child("count").set(i);
     }
   }
+
+// App Version Table==============================================================================
+//  Future<void> setAppVersion() async {
+//     await fref.child('appdata').push().set({
+//       "version": '1.0.2',
+//       "lastUpdateDate": 0,
+//     });
+//   }
+  
 }

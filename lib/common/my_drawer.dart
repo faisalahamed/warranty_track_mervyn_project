@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:warranty_track/app/modules/export/view/export_screen.dart';
 import 'package:warranty_track/app/routes/routes.dart';
 import 'package:warranty_track/common/constants.dart';
 
@@ -48,7 +49,8 @@ class MyNavigationDrawer extends StatelessWidget {
                     top: 0,
                     child: GestureDetector(
                       onTap: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
+                        // FocusScope.of(context).requestFocus(FocusNode());
+                        FocusScope.of(context).unfocus();
                         Navigator.of(context).pop();
                       },
                       child: const Icon(
@@ -63,12 +65,14 @@ class MyNavigationDrawer extends StatelessWidget {
           drawerItem(
             title: 'Home',
             onTap: () {
+              FocusScope.of(context).unfocus();
               Navigator.pop(context);
             },
           ),
           drawerItem(
             title: 'Transactions',
             onTap: () {
+              FocusScope.of(context).unfocus();
               Navigator.pop(context);
               // Get.to(() => const TransactionView());
               Get.toNamed(Routes.rTRANSECTION);
@@ -77,13 +81,15 @@ class MyNavigationDrawer extends StatelessWidget {
           drawerItem(
             title: 'Exports',
             onTap: () {
+              FocusScope.of(context).unfocus();
               Navigator.pop(context);
-              // Get.to(() => const ExportsScreen());
+              Get.to(() => const ExportsScreen());
             },
           ),
           drawerItem(
             title: 'Categories',
             onTap: () {
+              FocusScope.of(context).unfocus();
               Navigator.pop(context);
               // Get.to(() => CategoriesScreen());
               Get.toNamed(Routes.rCATEGORY);
@@ -100,6 +106,7 @@ class MyNavigationDrawer extends StatelessWidget {
           drawerItem(
             title: 'Settings',
             onTap: () {
+              FocusScope.of(context).unfocus();
               Navigator.pop(context);
               // Get.to(() => const SettingsScreen());
               Get.toNamed(Routes.rSettings);
@@ -108,6 +115,7 @@ class MyNavigationDrawer extends StatelessWidget {
           drawerItem(
             title: 'Warranty',
             onTap: () {
+              FocusScope.of(context).unfocus();
               Navigator.pop(context);
               // Get.to(() => const WarrantyScreen());
               Get.toNamed(Routes.rWARRANTY);
@@ -116,6 +124,7 @@ class MyNavigationDrawer extends StatelessWidget {
           drawerItem(
             title: 'web version (Test)',
             onTap: () {
+              FocusScope.of(context).unfocus();
               Navigator.pop(context);
               // Get.to(() => const WarrantyScreen());
               Get.toNamed(Routes.rPublicdashboard);

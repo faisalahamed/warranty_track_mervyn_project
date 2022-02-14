@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/modules/transaction_details/controller/transaction_details_controller.dart';
 
 import 'package:warranty_track/common/constants.dart';
 

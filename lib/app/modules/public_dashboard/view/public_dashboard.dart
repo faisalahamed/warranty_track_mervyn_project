@@ -153,11 +153,11 @@ class _PublicDashboardState extends State<PublicDashboard> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(
-                        () => TransactionDetailScreen(
-                          transectionItem: _translist[index],
-                        ),
-                      );
+                      // Get.to(
+                      //   () => TransactionDetailScreen(
+                      //     transectionItem: _translist[index],
+                      //   ),
+                      // );
                     },
                     child: Container(
                       height: size.height * 0.15,

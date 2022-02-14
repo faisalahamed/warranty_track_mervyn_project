@@ -22,10 +22,10 @@ class SettingsScreen extends GetView<SettingsController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'App Version 1.0.0',
-                style: TextStyle(fontSize: 18),
-              ),
+              Obx(() => Text(
+                    controller.info.value.version,
+                    style: TextStyle(fontSize: 18),
+                  )),
               SizedBox(width: 10),
               OutlinedButton(
                 onPressed: () {},
@@ -41,9 +41,6 @@ class SettingsScreen extends GetView<SettingsController> {
                 onChanged: (bool val) {
                   controller.isEnabled.value = val;
                   controller.updateUserShareStatus();
-                  // TODO: Update all user transaction of shared settings
-
-              
                   controller.updateShareStatusOfTransaction();
                 },
               ),

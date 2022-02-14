@@ -11,7 +11,7 @@ import 'package:warranty_track/app/model/category_model.dart';
 import 'package:warranty_track/app/modules/auth/controller/login_controller.dart';
 import 'package:warranty_track/app/modules/home/controller/home_controller.dart';
 import 'package:warranty_track/app/modules/home/view/home_widgets/map_dialog.dart';
-import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/modules/transaction_details/controller/transaction_details_controller.dart';
 import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
@@ -335,8 +335,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      _key.currentState!.openDrawer();
                       FocusScope.of(context).unfocus();
+                      _key.currentState!.openDrawer();
                     },
                     child: Image(
                       image: AssetImage(AppIcons.drawer),

@@ -11,9 +11,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 // ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
-import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/modules/settings/controller/settings_controller.dart';
+import 'package:warranty_track/app/modules/transaction_details/controller/transaction_details_controller.dart';
 import 'package:warranty_track/app/modules/transaction_details/view/edit_map_location.dart';
 import 'package:warranty_track/app/modules/transaction_details/view/transaction_date_change.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
@@ -42,6 +44,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
   TextEditingController note = TextEditingController();
   TextEditingController shopPurchached = TextEditingController();
   TextEditingController personWhoServed = TextEditingController();
+  SettingsController _settingsController = SettingsController();
 
   final picker = ImagePicker();
   File? _image;
@@ -59,7 +62,8 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
   // LocationData? _locationData;
   late int _current;
 
-  TransactionDetailsController settingController = TransactionDetailsController();
+  TransactionDetailsController transactionController =
+      TransactionDetailsController();
 
   List<String> sliderImages = [];
 
@@ -71,7 +75,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
           return DeleteAlertDialogue(
               msg: 'Do you want to delete Transaction?',
               func: () {
-                settingController.deleteCategoryData(id: id);
+                transactionController.deleteCategoryData(id: id);
                 remove();
               });
         });
@@ -240,6 +244,8 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                     FirebaseConf().updateTransaction(
                         widget.transectionItem.id, title, controller.text);
                     if (title == 'price') {
+                      // controller.
+                      _settingsController.updateShareStatusOfTransaction();
                       _price = controller.text;
                     } else if (title == 'category') {
                       _category = controller.text;
@@ -530,7 +536,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                 title: 'Price',
                 value: "RM $_price",
                 onTap: () {
-                  // priceTec.text = widget.catDetail.price;
+                  priceTec.text = widget.transectionItem.price ?? '';
                   showEditModelSheet(controller: priceTec, title: 'price');
                 }),
             detailContainer(
