@@ -12,6 +12,7 @@ import 'package:googleapis/drive/v3.dart' as ga;
 import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:warranty_track/app/model/secure_storage.dart';
+import 'package:warranty_track/app/modules/export/controller/export_controller.dart';
 import 'package:warranty_track/app/modules/transaction/controller/transaction_controller.dart';
 import 'package:warranty_track/common/bloc/loading.dart';
 import 'package:warranty_track/common/constants.dart';
@@ -31,6 +32,7 @@ class _ExportScreenState extends State<ExportsScreen> {
   late File csvFile;
   final storage = SecureStorage();
   TransactionController transactionController = Get.find();
+  ExportController exportController = Get.put(ExportController());
 
   static const _clientId =
       '478534178274-cmj10q2hpnptlomfegc92fcf6q914o85.apps.googleusercontent.com';
@@ -80,7 +82,7 @@ class _ExportScreenState extends State<ExportsScreen> {
         'id',
         'Date',
         'Time',
-        'Item Name',
+        'Description',
         'category',
         'Price',
       ],
@@ -95,6 +97,7 @@ class _ExportScreenState extends State<ExportsScreen> {
     ];
 
     String csv = const ListToCsvConverter().convert(csvData);
+    print(csv);
 
     final String dir = (await getApplicationDocumentsDirectory()).path;
     final String path = '$dir/transactions.csv';

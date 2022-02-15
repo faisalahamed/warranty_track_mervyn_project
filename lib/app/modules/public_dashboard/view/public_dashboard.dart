@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
 import 'package:warranty_track/app/modules/transaction/controller/transaction_controller.dart';
-import 'package:warranty_track/app/modules/transaction_details/view/transaction_detail_screen.dart';
+// import 'package:warranty_track/app/modules/transaction_details/view/transaction_detail_screen.dart';
 // import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/category_filter_dialogue.dart';
@@ -143,7 +143,7 @@ class _PublicDashboardState extends State<PublicDashboard> {
                 }
               }
             });
-            transactionController.addintorxlist(_translist);
+            // transactionController.addintorxlist(_translist);
             return SingleChildScrollView(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 3),

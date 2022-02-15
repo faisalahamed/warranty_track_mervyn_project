@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
+import 'package:warranty_track/app/service/auth_service.dart';
+import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
 import 'package:warranty_track/common/constants.dart';
 
@@ -86,28 +88,29 @@ class TransactionController extends GetxController {
   Future<bool> downloadZip(
       File file, Function uploadDrive, Function uploadStatus,
       {bool isUploadDrive = false}) async {
-    // final documentDirectory = await getApplicationSupportDirectory();
     final documentDirectory = await getApplicationDocumentsDirectory();
     final String _todayDate = DateFormat('ddMMyyyy').format(DateTime.now());
     var encoder = ZipFileEncoder();
-    // String path = '/storage/emulated/0/Download/' + _todayDate + 'Receipt.zip';
-    String path = '/data/user/0/com.example.mervyn_project/app_flutter/' +
-        _todayDate +
-        'Receipt.zip';
 
-    if (await File(path).exists()) {
+    if (await File(documentDirectory.path + '/' + _todayDate + 'Receipt.zip')
+        .exists()) {
       if (!isUploadDrive) {
-        await File(path).delete(recursive: true);
+        await File(documentDirectory.path + '/' + _todayDate + 'Receipt.zip')
+            .delete(recursive: true);
         print('--------File Exist-------');
-        encoder.create(path);
+        encoder
+            .create(documentDirectory.path + '/' + _todayDate + 'Receipt.zip');
         encoder.addFile(file);
-        //encoder.addDirectory(Directory(path));
+        // encoder
+        //     .addDirectory(Directory(documentDirectory.path + '/' + _todayDate));
         encoder.close();
         CommonFunc().customSnackbar(
             msg: "Local Back Up Done Successfully", isTrue: true);
       }
       if (isUploadDrive) {
-        await uploadDrive(File(path)).then((_) {
+        await uploadDrive(File(
+                documentDirectory.path + '/' + _todayDate + 'Receipt.zip'))
+            .then((_) {
           uploadStatus('Completed');
         });
       }
@@ -116,16 +119,20 @@ class TransactionController extends GetxController {
       if (!isUploadDrive) {
         print('--------document not exist-------');
         print(documentDirectory.path);
-        encoder.create(path);
+        encoder
+            .create(documentDirectory.path + '/' + _todayDate + 'Receipt.zip');
         encoder.addFile(file);
-        encoder.addDirectory(Directory(path));
+        // encoder
+        //     .addDirectory(Directory(documentDirectory.path + '/' + _todayDate));
         encoder.close();
         CommonFunc().customSnackbar(
             msg: "Local Back Up Done Successfully", isTrue: true);
       }
 
       if (isUploadDrive) {
-        await uploadDrive(File(path)).then((_) {
+        await uploadDrive(File(
+                documentDirectory.path + '/' + _todayDate + 'Receipt.zip'))
+            .then((_) {
           uploadStatus('Completed');
         });
       }
