@@ -86,20 +86,25 @@ class TransactionController extends GetxController {
   Future<bool> downloadZip(
       File file, Function uploadDrive, Function uploadStatus,
       {bool isUploadDrive = false}) async {
-    final documentDirectory = await getApplicationSupportDirectory();
+    // final documentDirectory = await getApplicationSupportDirectory();
+    final documentDirectory = await getApplicationDocumentsDirectory();
     final String _todayDate = DateFormat('ddMMyyyy').format(DateTime.now());
     var encoder = ZipFileEncoder();
-    String path = '/storage/emulated/0/Download/' + _todayDate + 'Receipt.zip';
+    // String path = '/storage/emulated/0/Download/' + _todayDate + 'Receipt.zip';
+    String path = '/data/user/0/com.example.mervyn_project/app_flutter/' +
+        _todayDate +
+        'Receipt.zip';
 
     if (await File(path).exists()) {
       if (!isUploadDrive) {
         await File(path).delete(recursive: true);
+        print('--------File Exist-------');
         encoder.create(path);
         encoder.addFile(file);
-        encoder
-            .addDirectory(Directory('${documentDirectory.path}/$_todayDate'));
+        //encoder.addDirectory(Directory(path));
         encoder.close();
-        CommonFunc().customSnackbar(msg: "Local Back Up Done Successfully", isTrue: true);
+        CommonFunc().customSnackbar(
+            msg: "Local Back Up Done Successfully", isTrue: true);
       }
       if (isUploadDrive) {
         await uploadDrive(File(path)).then((_) {
@@ -109,12 +114,14 @@ class TransactionController extends GetxController {
       return !isUploadDrive;
     } else {
       if (!isUploadDrive) {
+        print('--------document not exist-------');
+        print(documentDirectory.path);
         encoder.create(path);
         encoder.addFile(file);
-        encoder
-            .addDirectory(Directory('${documentDirectory.path}/$_todayDate'));
+        encoder.addDirectory(Directory(path));
         encoder.close();
-        CommonFunc().customSnackbar(msg: "Local Back Up Done Successfully", isTrue: true);
+        CommonFunc().customSnackbar(
+            msg: "Local Back Up Done Successfully", isTrue: true);
       }
 
       if (isUploadDrive) {
