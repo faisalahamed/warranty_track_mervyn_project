@@ -27,10 +27,12 @@ class ExportController extends GetxController {
         .once()
         .then((value) {
       _list = [];
-      (value.value as Map<dynamic, dynamic>).forEach((key, value2) {
-        _list.add(TransactionModel.fromJson(value2, key));
-        _transactionController.addintorxlist(_list);
-      });
+      value.value != null
+          ? (value.value as Map<dynamic, dynamic>).forEach((key, value2) {
+              _list.add(TransactionModel.fromJson(value2, key));
+              _transactionController.addintorxlist(_list);
+            })
+          : null;
       print(_list.length);
     });
   }
