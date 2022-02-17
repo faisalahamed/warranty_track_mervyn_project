@@ -121,15 +121,15 @@ class MyNavigationDrawer extends StatelessWidget {
               Get.toNamed(Routes.rWARRANTY);
             },
           ),
-          drawerItem(
-            title: 'web version (Test)',
-            onTap: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-              // Get.to(() => const WarrantyScreen());
-              Get.toNamed(Routes.rPublicdashboard);
-            },
-          ),
+          // drawerItem(
+          //   title: 'web version (Test)',
+          //   onTap: () {
+          //     FocusScope.of(context).unfocus();
+          //     Navigator.pop(context);
+          //     // Get.to(() => const WarrantyScreen());
+          //     Get.toNamed(Routes.rPublicdashboard);
+          //   },
+          // ),
         ],
       ),
     );

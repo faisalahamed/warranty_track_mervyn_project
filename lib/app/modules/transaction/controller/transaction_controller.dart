@@ -9,8 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
-import 'package:warranty_track/app/service/auth_service.dart';
-import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
 import 'package:warranty_track/common/constants.dart';
 

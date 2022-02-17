@@ -245,7 +245,8 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                         widget.transectionItem.id, title, controller.text);
                     if (title == 'price') {
                       // controller.
-                      _settingsController.updateShareStatusOfTransaction();
+                      _settingsController
+                          .onEditupdateShareStatusOfTransaction();
                       _price = controller.text;
                     } else if (title == 'category') {
                       _category = controller.text;

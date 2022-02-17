@@ -5,7 +5,7 @@ import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsController extends GetxController {
-  var isEnabled = true.obs;
+  var isEnabled = false.obs;
   AuthService authService = AuthService();
   Rx<PackageInfo> info = PackageInfo(
     appName: 'Unknown',
@@ -17,9 +17,9 @@ class SettingsController extends GetxController {
 
   @override
   void onInit() async {
-    lista();
-    getAppVersion();
     super.onInit();
+    getAppVersion();
+    lista();
   }
 
   void lista() async {
@@ -29,7 +29,6 @@ class SettingsController extends GetxController {
     }
   }
 
-// TODO: Set App Version Temporary
   void getAppVersion() async {
     // await FirebaseConf().setAppVersion();
     info.value = await PackageInfo.fromPlatform();
@@ -46,6 +45,19 @@ class SettingsController extends GetxController {
     if (authService.auth.currentUser != null) {
       FirebaseConf().updateShareStatusOfTransaction(
           authService.auth.currentUser!.uid, isEnabled.value);
+    }
+  }
+
+  void onEditupdateShareStatusOfTransaction() async {
+    bool isShared = await FirebaseConf()
+        .currentUserSharedStatus(authService.auth.currentUser!.uid);
+    print('i am update');
+    print(isShared);
+    if (authService.auth.currentUser != null) {
+      isShared
+          ? FirebaseConf().updateShareStatusOfTransaction(
+              authService.auth.currentUser!.uid, isEnabled.value)
+          : print('failed');
     }
   }
 }
