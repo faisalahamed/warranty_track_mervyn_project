@@ -79,10 +79,8 @@ class HomeViewController extends GetxController {
       loading.value = false;
       return;
     } else {
-      print(currentUserSharedStatus);
       currentUserSharedStatus =
           await FirebaseConf().currentUserSharedStatus(_authService.user!.uid);
-      print('========================$currentUserSharedStatus');
     }
     if (category == null) {
       CommonFunc().customSnackbar(msg: "Select Category", isTrue: false);

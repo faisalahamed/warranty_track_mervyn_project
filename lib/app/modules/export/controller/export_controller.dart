@@ -33,7 +33,7 @@ class ExportController extends GetxController {
               _transactionController.addintorxlist(_list);
             })
           : null;
-      print(_list.length);
+   
     });
   }
 }

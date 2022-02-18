@@ -15,7 +15,7 @@ class TransactionDetailsController extends GetxController {
   }
 
   addCategoryDataGet() {
-    print(_authService.user!.uid);
+    // print(_authService.user!.uid);
     if (categoryTec.text.isEmpty) {
       CommonFunc().customSnackbar(msg: "Enter Category", isTrue: false);
       return;

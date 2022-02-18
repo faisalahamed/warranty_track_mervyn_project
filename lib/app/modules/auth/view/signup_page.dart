@@ -93,10 +93,7 @@ class SignUpView extends GetView<SignUpController> {
                 ),
                 InkWell(
                   onTap: () {
-                    print(controller.fNameTec.text);
-                    print(controller.lNameTec.text);
-                    print(controller.emailTec.text);
-                    print(controller.passwordTec.text);
+                 
                     controller.createUser();
                   },
                   child: Container(

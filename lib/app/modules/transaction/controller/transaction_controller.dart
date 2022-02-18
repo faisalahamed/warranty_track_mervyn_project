@@ -59,7 +59,6 @@ class TransactionController extends GetxController {
             }
           }
           if (transactionListRx[i].rimage != 'null') {
-            print(transactionListRx[i].rimage);
             final response =
                 await http.get(Uri.parse(transactionListRx[i].rimage));
             final Directory _dir =
@@ -99,7 +98,6 @@ class TransactionController extends GetxController {
         if (!isUploadDrive) {
           await File(documentDirectory.path + '/' + _todayDate + 'Receipt.zip')
               .delete(recursive: true);
-          print('--------File Exist-------');
           encoder.create(
               documentDirectory.path + '/' + _todayDate + 'Receipt.zip');
           encoder.addFile(file);
@@ -125,8 +123,6 @@ class TransactionController extends GetxController {
         return !isUploadDrive;
       } else {
         if (!isUploadDrive) {
-          print('--------document not exist-------');
-          print(documentDirectory.path);
           encoder.create(
               documentDirectory.path + '/' + _todayDate + 'Receipt.zip');
           encoder.addFile(file);

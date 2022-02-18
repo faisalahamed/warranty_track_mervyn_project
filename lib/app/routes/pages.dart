@@ -6,6 +6,7 @@ import 'package:warranty_track/app/modules/auth/binding/signup_binding.dart';
 import 'package:warranty_track/app/modules/auth/view/login_page.dart';
 import 'package:warranty_track/app/modules/auth/view/signup_page.dart';
 import 'package:warranty_track/app/modules/category/view/categories_screen.dart';
+import 'package:warranty_track/app/modules/feedback/binding/feedback_binding.dart';
 import 'package:warranty_track/app/modules/feedback/view/feedback_screen.dart';
 import 'package:warranty_track/app/modules/home/bindings/home_binding.dart';
 import 'package:warranty_track/app/modules/home/view/home_screen.dart';
@@ -68,7 +69,7 @@ class RoutePage {
     GetPage(
       name: Routes.rFeedback,
       page: () => const FeedbackScreen(),
-      // binding: WarrantyBinding(),
+      binding: FeedbackBinding(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(

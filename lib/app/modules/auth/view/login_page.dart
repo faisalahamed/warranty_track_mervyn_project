@@ -108,8 +108,7 @@ class LoginView extends GetView<LoginController> {
                 InkWell(
                   onTap: () {
                     FocusScope.of(context).unfocus();
-                    // print(userController.emailInput.text);
-                    // print(userController.passwordInput.text);
+               
                     controller.login();
                   },
                   child: Container(

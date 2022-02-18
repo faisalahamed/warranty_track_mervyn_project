@@ -97,7 +97,6 @@ class _ExportScreenState extends State<ExportsScreen> {
     ];
 
     String csv = const ListToCsvConverter().convert(csvData);
-    // print(csv);
 
     final String dir = (await getApplicationDocumentsDirectory()).path;
     final String path = '$dir/transactions.csv';

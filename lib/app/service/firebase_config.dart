@@ -61,7 +61,7 @@ class FirebaseConf {
               .reference()
               .child(key)
               .update({'isShared': shareStatus});
-          // print('here');
+          print('here $shareStatus');
         } else {
           await fref
               .child("Details")
@@ -153,5 +153,5 @@ class FirebaseConf {
 //       "lastUpdateDate": 0,
 //     });
 //   }
-  
+
 }

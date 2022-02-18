@@ -49,14 +49,14 @@ class SettingsController extends GetxController {
   }
 
   void onEditupdateShareStatusOfTransaction() async {
-    bool isShared = await FirebaseConf()
-        .currentUserSharedStatus(authService.auth.currentUser!.uid);
-    print('i am update');
-    print(isShared);
     if (authService.auth.currentUser != null) {
+      bool isShared = await FirebaseConf()
+          .currentUserSharedStatus(authService.auth.currentUser!.uid);
+      print('on edit update called : $isShared');
+
       isShared
           ? FirebaseConf().updateShareStatusOfTransaction(
-              authService.auth.currentUser!.uid, isEnabled.value)
+              authService.auth.currentUser!.uid, true)
           : print('failed');
     }
   }

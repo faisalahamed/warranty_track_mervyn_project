@@ -71,7 +71,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Future<void> addCatList() async {
-    // print(_authService.user?.uid);
     List<CategoryModel> _dummy = [];
     await FirebaseConf().fref.child("Categories").once().then((snap) {
       if (snap.value != null) {
