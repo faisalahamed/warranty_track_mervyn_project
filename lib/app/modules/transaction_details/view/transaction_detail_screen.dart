@@ -587,8 +587,9 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                 }),
             detailContainer(
                 title: 'Warranty',
-                value:
-                    '''${widget.transectionItem.warrantyyearcount} Year      Date: ${MyDateCalculation().timestampToDate(widget.transectionItem.warrantytill)}''',
+                value: widget.transectionItem.warrantytill != '0'
+                    ? '''${widget.transectionItem.warrantyyearcount} Year      Date: ${MyDateCalculation().timestampToDate(widget.transectionItem.warrantytill)}'''
+                    : 'No Warranty Available',
                 onTap: () {
                   // note.text = widget.transectionItem.note != null
                   //     ? widget.transectionItem.note!

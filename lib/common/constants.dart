@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppConstants {
   static var appLogo = 'assets/app_logo.png';
   static var dropdownYear = [
+    'No Warranty',
     'Lifetime',
     '1',
     '2',

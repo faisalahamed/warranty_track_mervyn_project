@@ -37,10 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   HomeViewController homeScreenController = Get.find();
   late bool permissionGranted;
-  final TransactionDetailsController _settingController = Get.find();
+  final TransactionDetailsController _transactiondetailsConroller = Get.find();
   final LoginController _loginController = Get.find();
   AuthService _authService = Get.find();
-  String? _warrantyYear = '1';
+  String? _warrantyYear = '0';
 
   late double timeDilation;
 
@@ -438,7 +438,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               }
 
-                              _settingController.getCatData(_catList);
+                              _transactiondetailsConroller.getCatData(_catList);
 
                               return ListView.builder(
                                   padding: const EdgeInsets.symmetric(
@@ -577,127 +577,185 @@ class _HomeScreenState extends State<HomeScreen> {
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              // Date Warranty
+                              // TODO:
                               Container(
                                 color: Colors.white,
                                 child: Container(
-                                    height: 80,
-                                    margin: const EdgeInsets.only(
-                                        top: 16, bottom: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Center(
-                                      child: ListTile(
-                                        title: DropdownButtonHideUnderline(
-                                          child: DropdownButton(
-                                            hint: _warrantyYear == '1'
-                                                ? Center(
-                                                    child: Text(
-                                                      '1',
-                                                      style: TextStyle(
-                                                          color: AppColor
-                                                              .textSecondarycolor,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  )
-                                                : Center(
-                                                    child: Text(
-                                                      _warrantyYear!,
-                                                      style: TextStyle(
-                                                          color: AppColor
-                                                              .textSecondarycolor,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                            isExpanded: true,
-                                            iconSize: 30.0,
-                                            style: const TextStyle(
-                                                color: Colors.blue),
-                                            items:
-                                                AppConstants.dropdownYear.map(
-                                              (val) {
-                                                return DropdownMenuItem<String>(
-                                                  value: val,
-                                                  child: ListTile(
-                                                      title: Text(val)),
-                                                );
-                                              },
-                                            ).toList(),
-                                            onChanged: (String? val) {
-                                              setState(() {
-                                                _warrantyYear = val;
-                                              });
-                                              if (val != 'Lifetime') {
-                                                DateTime t = DateTime.now();
+                                  color: Colors.white,
+                                  margin: const EdgeInsets.only(
+                                      top: 8, bottom: 8, left: 20, right: 15),
+                                  child: Obx(
+                                    () => Row(
+                                      children: [
+                                        const Expanded(
+                                            flex: 3,
+                                            child: Text(
+                                              'Enable Warranty:',
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.black87),
+                                            )),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Switch(
+                                              activeColor:
+                                                  AppColor.primaryColor,
+                                              value: homeScreenController
+                                                  .showWarrantyWidget.value,
+                                              onChanged: (val) {
+                                                homeScreenController
+                                                    .showWarrantyWidget
+                                                    .value = val;
 
-                                                var newDate = DateTime(
-                                                    t.year + int.parse(val!),
-                                                    t.month,
-                                                    t.day);
-                                                homeScreenController
-                                                        .warrantyTillDate.text =
-                                                    newDate
-                                                        .millisecondsSinceEpoch
-                                                        .toString();
-                                              } else {
-                                                homeScreenController
-                                                    .warrantyTillDate
-                                                    .text = "Lifetime";
-                                              }
-                                            },
+                                              //  TODO:
+                                              },
+                                            ),
                                           ),
                                         ),
-                                        subtitle: const Padding(
-                                          padding: EdgeInsets.only(left: 18.0),
-                                          child: Text('Warranty Year'),
-                                        ),
-                                        trailing: Column(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                homeScreenController
-                                                            .warrantyTillDate
-                                                            .text !=
-                                                        'Lifetime'
-                                                    ? MyDateCalculation()
-                                                        .timestampToDate(
-                                                            homeScreenController
-                                                                .warrantyTillDate
-                                                                .text)
-                                                    : 'Lifetime',
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .resolveWith(
-                                                  (states) =>
-                                                      AppColor.primaryColor,
-                                                )),
-                                                child: const Text(
-                                                    'Warranty Expiry'),
-                                                onPressed: () {
-                                                  // homeScreenController
-                                                  //     .warrantyTillDate.text = 'adsf';
-
-                                                  _selectDate(context);
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
+
+                              // Date Warranty
+                              Obx(() => homeScreenController
+                                      .showWarrantyWidget.value
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Container(
+                                          height: 80,
+                                          margin: const EdgeInsets.only(
+                                              top: 16, bottom: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: ListTile(
+                                              title:
+                                                  DropdownButtonHideUnderline(
+                                                child: DropdownButton(
+                                                  hint: _warrantyYear == '1'
+                                                      ? Center(
+                                                          child: Text(
+                                                            '1',
+                                                            style: TextStyle(
+                                                                color: AppColor
+                                                                    .textSecondarycolor,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )
+                                                      : Center(
+                                                          child: Text(
+                                                            _warrantyYear!,
+                                                            style: TextStyle(
+                                                                color: AppColor
+                                                                    .textSecondarycolor,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                  isExpanded: true,
+                                                  iconSize: 30.0,
+                                                  style: const TextStyle(
+                                                      color: Colors.blue),
+                                                  items: AppConstants
+                                                      .dropdownYear
+                                                      .map(
+                                                    (val) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: val,
+                                                        child: ListTile(
+                                                            title: Text(val)),
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                  onChanged: (String? val) {
+                                                    setState(() {
+                                                      _warrantyYear = val;
+                                                    });
+                                                    if (val != 'Lifetime') {
+                                                      DateTime t =
+                                                          DateTime.now();
+
+                                                      var newDate = DateTime(
+                                                          t.year +
+                                                              int.parse(val!),
+                                                          t.month,
+                                                          t.day);
+                                                      homeScreenController
+                                                              .warrantyTillDate
+                                                              .text =
+                                                          newDate
+                                                              .millisecondsSinceEpoch
+                                                              .toString();
+                                                    } else {
+                                                      homeScreenController
+                                                          .warrantyTillDate
+                                                          .text = "Lifetime";
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                              subtitle: const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 18.0),
+                                                child: Text('Warranty Year'),
+                                              ),
+                                              trailing: Column(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      homeScreenController
+                                                                  .warrantyTillDate
+                                                                  .text !=
+                                                              'Lifetime'
+                                                          ? MyDateCalculation()
+                                                              .timestampToDate(
+                                                                  homeScreenController
+                                                                      .warrantyTillDate
+                                                                      .text)
+                                                          : 'Lifetime',
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ElevatedButton(
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .resolveWith(
+                                                        (states) => AppColor
+                                                            .primaryColor,
+                                                      )),
+                                                      child: const Text(
+                                                          'Warranty Expiry'),
+                                                      onPressed: () {
+                                                        // homeScreenController
+                                                        //     .warrantyTillDate.text = 'adsf';
+
+                                                        _selectDate(context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )),
+                                    )
+                                  : SizedBox()),
+
                               // Shop Purchased
+
                               Container(
                                 color: Colors.white,
                                 child: textFieldContainer(

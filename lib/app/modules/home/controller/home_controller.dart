@@ -19,6 +19,7 @@ class HomeViewController extends GetxController {
   TextEditingController note = TextEditingController();
   AuthService _authService = Get.find();
   bool currentUserSharedStatus = false;
+  Rx<bool> showWarrantyWidget = false.obs;
   // var warrantyTotalYear = '1'.obs;
   var loading = false.obs;
   var long = 0.0.obs;
@@ -152,8 +153,8 @@ class HomeViewController extends GetxController {
       note: note.text,
       long: isLocation.value ? long.value.toString() : '0.0',
       lat: isLocation.value ? lat.value.toString() : '0.0',
-      warrantytill: warrantyTillDate.text,
-      warrantyyearcount: warrantyyearcount,
+      warrantytill: showWarrantyWidget.value ? warrantyTillDate.text:'0',
+      warrantyyearcount: showWarrantyWidget.value ? warrantyyearcount : '0',
       isarchived: false,
       timeadded: DateTime.now().millisecondsSinceEpoch,
       isShared: currentUserSharedStatus,
