@@ -11,7 +11,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 // ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
 import 'package:warranty_track/app/modules/settings/controller/settings_controller.dart';

@@ -2,10 +2,8 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
-import 'package:warranty_track/app/modules/transaction/controller/transaction_controller.dart';
 // import 'package:warranty_track/app/modules/transaction_details/view/transaction_detail_screen.dart';
 // import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
@@ -24,7 +22,7 @@ class _PublicDashboardState extends State<PublicDashboard> {
   List<String> selectedCategories = [];
   DateTime? _start;
   DateTime? _end;
-  TransactionController transactionController = Get.find();
+  // TransactionController transactionController = Get.find();
   // AuthService _authService = Get.find();
 
   categoryWiseFilterDialogue() {

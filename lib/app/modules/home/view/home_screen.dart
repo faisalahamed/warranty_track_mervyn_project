@@ -577,7 +577,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              // TODO:
                               Container(
                                 color: Colors.white,
                                 child: Container(
@@ -609,7 +608,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     .showWarrantyWidget
                                                     .value = val;
 
-                                              //  TODO:
                                               },
                                             ),
                                           ),

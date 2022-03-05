@@ -13,7 +13,6 @@ import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:warranty_track/app/model/secure_storage.dart';
 import 'package:warranty_track/app/modules/export/controller/export_controller.dart';
-import 'package:warranty_track/app/modules/transaction/controller/transaction_controller.dart';
 import 'package:warranty_track/common/bloc/loading.dart';
 import 'package:warranty_track/common/constants.dart';
 
@@ -31,7 +30,7 @@ class _ExportScreenState extends State<ExportsScreen> {
   final _isSuccessful = LoadingBloc();
   late File csvFile;
   final storage = SecureStorage();
-  TransactionController transactionController = Get.find();
+  // TransactionController transactionController = Get.find();
   ExportController exportController = Get.put(ExportController());
 
   static const _clientId =
@@ -86,8 +85,8 @@ class _ExportScreenState extends State<ExportsScreen> {
         'category',
         'Price',
       ],
-      ...transactionController.transactionListRx.map((item) => [
-            "${transactionController.transactionListRx.indexOf(item) + 1}",
+      ...exportController.transactionListRx.map((item) => [
+            "${exportController.transactionListRx.indexOf(item) + 1}",
             DateFormat('dd-MM-yyyy').format(DateTime.parse(item.dateadded)),
             DateFormat('hhh:mm:ssa').format(DateTime.parse(item.dateadded)),
             item.itemname,
@@ -104,7 +103,7 @@ class _ExportScreenState extends State<ExportsScreen> {
     await file.writeAsString(csv);
 
     csvFile = file;
-    _isSuccessful.loadingsink.add(await transactionController.saveImageLocal());
+    _isSuccessful.loadingsink.add(await exportController.saveImageLocal());
     _loading.loadingsink.add(false);
   }
 
@@ -153,7 +152,7 @@ class _ExportScreenState extends State<ExportsScreen> {
                                     generateCSVFile();
                                   } else {
                                     isLocalDownloadDone =
-                                        await transactionController.downloadZip(
+                                        await exportController.downloadZip(
                                       csvFile,
                                       upload,
                                       (String value) {
@@ -223,7 +222,7 @@ class _ExportScreenState extends State<ExportsScreen> {
                   Expanded(child: Container()),
                   GestureDetector(
                     onTap: () async {
-                      await transactionController.downloadZip(csvFile, upload,
+                      await exportController.downloadZip(csvFile, upload,
                           (String value) {
                         uploadStatus = value;
                         setState(() {});

@@ -44,7 +44,8 @@ class RoutePage {
     GetPage(
       name: Routes.rTRANSECTION,
       binding: TransactionBinding(),
-      page: () => const TransactionView(),
+      // page: () => const TransactionView(),
+      page: () => const TransactionListPage(),
       middlewares: [AuthMiddleware()],
     ),
     // GetPage(
