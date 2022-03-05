@@ -91,4 +91,26 @@ class TransactionModel {
     _data['timeadded'] = timeadded;
     return _data;
   }
+
+  TransactionModel.fromStream(Map<dynamic, dynamic> json) {
+    uid = json['uid'];
+    category = json['category'];
+    dateadded = json['dateadded'];
+    image = json['image'];
+    isShared = json['isShared'];
+    rimage = json['rimage'];
+    itemname = json['itemname'];
+    price = json['price'];
+    color = json['color'];
+    sellerimage = json['sellerimage'];
+    shoppurchached = json['shoppurchached'];
+    personwhoserved = json['personwhoserved'];
+    note = json['note'];
+    long = json['long'];
+    lat = json['lat'];
+    warrantytill = json['warrantytill'];
+    warrantyyearcount = json['warrantyyearcount'];
+    isarchived = json['isarchived'];
+    timeadded = json['timeadded'];
+  }
 }

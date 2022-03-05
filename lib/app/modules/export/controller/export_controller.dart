@@ -98,7 +98,7 @@ class ExportController extends GetxController {
   streamDemo() async {
     FirebaseConf()
         .fref
-        .reference()
+        .ref
         .child("Details")
         .orderByChild('uid')
         .equalTo(_authService.user!.uid)
@@ -107,8 +107,8 @@ class ExportController extends GetxController {
         .once()
         .then((value) {
       _list = [];
-      value.value != null
-          ? (value.value as Map<dynamic, dynamic>).forEach((key, value2) {
+      value.snapshot.value != null
+          ? (value.snapshot.value as Map<dynamic, dynamic>).forEach((key, value2) {
               _list.add(TransactionModel.fromJson(value2, key));
               addintorxlist(_list);
             })

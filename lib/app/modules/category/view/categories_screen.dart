@@ -73,8 +73,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Future<void> addCatList() async {
     List<CategoryModel> _dummy = [];
     await FirebaseConf().fref.child("Categories").once().then((snap) {
-      if (snap.value != null) {
-        Map data = snap.value;
+      if (snap.snapshot.value != null) {
+        Map data = snap.snapshot.value as Map;
         data.forEach((key, value) {
           if (_authService.user != null &&
               value['uid'] == _authService.user!.uid) {

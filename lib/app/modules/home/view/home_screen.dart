@@ -303,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final Stream _api =
-        FirebaseConf().fref.reference().child("Categories").onValue;
+        FirebaseConf().fref.ref.child("Categories").onValue;
 
     return Scaffold(
       key: _key,

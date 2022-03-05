@@ -54,7 +54,7 @@ class _PublicDashboardState extends State<PublicDashboard> {
 
     final Stream _api = FirebaseConf()
         .fref
-        .reference()
+        .ref
         .child("Details")
         // .orderByChild('uid')
         // .equalTo(_authService.user!.uid)

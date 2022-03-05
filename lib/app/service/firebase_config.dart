@@ -10,7 +10,7 @@ import 'package:warranty_track/app/model/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseConf {
-  final DatabaseReference fref = FirebaseDatabase.instance.reference();
+  final DatabaseReference fref = FirebaseDatabase.instance.ref();
   // final FirebaseAuth fauth = FirebaseAuth.instance;
   final dbstore = FirebaseStorage.instance.ref();
   final ffs = FirebaseFirestore.instance;
@@ -46,26 +46,26 @@ class FirebaseConf {
   Future updateShareStatusOfTransaction(String uid, bool shareStatus) async {
     var p = await FirebaseConf()
         .fref
-        .reference()
+        .ref
         .child("Details")
         .orderByChild('uid')
         .equalTo(uid)
         .once();
-    if (p.value != null) {
-      Map data = p.value;
+    if (p.snapshot.value != null) {
+      Map data = p.snapshot.value as Map;
       data.forEach((key, value) async {
         print(value['image']);
         if (value['price'] != '' && value['rimage'] != 'null') {
           await fref
               .child("Details")
-              .reference()
+              .ref
               .child(key)
               .update({'isShared': shareStatus});
           print('here $shareStatus');
         } else {
           await fref
               .child("Details")
-              .reference()
+              .ref
               .child(key)
               .update({'isShared': false});
         }

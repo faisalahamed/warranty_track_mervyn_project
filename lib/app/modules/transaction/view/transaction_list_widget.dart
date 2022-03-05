@@ -56,7 +56,7 @@ class _TransactionListWidgetState extends State<TransactionListWidget> {
 
     final Stream _api = FirebaseConf()
         .fref
-        .reference()
+        .ref
         .child("Details")
         .orderByChild('uid')
         .equalTo(_authService.user!.uid)
