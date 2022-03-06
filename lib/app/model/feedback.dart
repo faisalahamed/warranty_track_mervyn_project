@@ -20,13 +20,13 @@ class FeedbackMail {
         "Content-Type": "application/json",
       },
       body: jsonEncode({
-        "service_id": "service_krk9tbo",
-        "template_id": "template_ulvkf8a",
-        "user_id": "user_fCghKsIlAoSTphM3pIB3W",
+        "service_id": "service_b8ae1su",
+        "template_id": "template_qz148bn",
+        "user_id": "user_Cja66w309pycUYFyWDPL5",
         "template_params": {
           "full_name": name,
-          "email_id": email,
-          "feedback": feedback,
+          "from_name": email,
+          "message": feedback,
         },
       }),
     )

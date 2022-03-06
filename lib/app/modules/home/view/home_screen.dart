@@ -11,7 +11,8 @@ import 'package:warranty_track/app/model/category_model.dart';
 import 'package:warranty_track/app/modules/auth/controller/login_controller.dart';
 import 'package:warranty_track/app/modules/home/controller/home_controller.dart';
 import 'package:warranty_track/app/modules/home/view/home_widgets/map_dialog.dart';
-import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/modules/transaction_details/controller/transaction_details_controller.dart';
+import 'package:warranty_track/app/routes/routes.dart';
 import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
@@ -37,10 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   HomeViewController homeScreenController = Get.find();
   late bool permissionGranted;
-  final SettingController _settingController = Get.find();
+  final TransactionDetailsController _transactiondetailsConroller = Get.find();
   final LoginController _loginController = Get.find();
   AuthService _authService = Get.find();
-  String? _warrantyYear = '1';
+  String? _warrantyYear = '0';
 
   late double timeDilation;
 
@@ -197,7 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
-        height: size!.height * 0.21,
+        // height: size!.height * 0.21,
+        height: 165,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(20),
@@ -238,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Image(
                   image: FileImage(pickImage),
                   fit: BoxFit.cover,
-                  width: size.width,
+                  width: size!.width,
                   height: size.height,
                 ),
               ),
@@ -302,8 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Stream _api =
-        FirebaseConf().fref.reference().child("Categories").onValue;
+    final Stream _api = FirebaseConf().fref.ref.child("Categories").onValue;
 
     return Scaffold(
       key: _key,
@@ -335,8 +336,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      _key.currentState!.openDrawer();
                       FocusScope.of(context).unfocus();
+                      _key.currentState!.openDrawer();
                     },
                     child: Image(
                       image: AssetImage(AppIcons.drawer),
@@ -411,7 +412,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       // Select Category
 
                       SizedBox(
-                        height: size.height * 0.045,
+                        // height: size.height * 0.045,
+                        height: 36,
                         width: size.width * 1,
                         child: StreamBuilder(
                           stream: _api,
@@ -438,47 +440,68 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               }
 
-                              _settingController.getCatData(_catList);
+                              _transactiondetailsConroller.getCatData(_catList);
 
-                              return ListView.builder(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: _catList.length,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                        setState(() {
-                                          selectedString =
-                                              _catList[index].catName;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 15),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          color: selectedString ==
-                                                  _catList[index].catName
-                                              ? AppColor.secondaryColor
-                                              : AppColor.primaryColor,
-                                        ),
-                                        child: Text(
-                                          _catList[index].catName,
-                                          style: TextStyle(
-                                            color: selectedString ==
-                                                    _catList[index].catName
-                                                ? AppColor.primaryColor
-                                                : Colors.white,
+                              return _catList.length > 0
+                                  ? ListView.builder(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: _catList.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: () {
+                                            FocusScope.of(context).unfocus();
+                                            setState(() {
+                                              selectedString =
+                                                  _catList[index].catName;
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 15),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              color: selectedString ==
+                                                      _catList[index].catName
+                                                  ? AppColor.secondaryColor
+                                                  : AppColor.primaryColor,
+                                            ),
+                                            child: Text(
+                                              _catList[index].catName,
+                                              style: TextStyle(
+                                                color: selectedString ==
+                                                        _catList[index].catName
+                                                    ? AppColor.primaryColor
+                                                    : Colors.white,
+                                              ),
+                                            ),
                                           ),
+                                        );
+                                      })
+                                  : Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: size.width / 3.5),
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    AppColor.secondaryColor
+                                                        .withOpacity(0.7))),
+                                        child: const Text(
+                                          'Add Category +',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
                                         ),
+                                        onPressed: () {
+                                          Get.toNamed(Routes.rCATEGORY);
+                                        },
                                       ),
                                     );
-                                  });
                             } else {
-                              return Container();
+                              return SizedBox();
                             }
                           },
                         ),
@@ -488,7 +511,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 // Image Picker
                 Positioned(
-                  top: size.height * 0.145,
+                  // top: size.height * 0.145,
+                  top: 110,
                   child: SizedBox(
                     width: size.width,
                     child: Padding(
@@ -525,7 +549,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 // input field
                 Container(
-                  margin: EdgeInsets.only(top: size.height * 0.378),
+                  // margin: EdgeInsets.only(top: size.height * 0.378),
+                  margin: EdgeInsets.only(top: 290),
                   width: size.width,
                   child: Container(
                     margin:
@@ -577,127 +602,182 @@ class _HomeScreenState extends State<HomeScreen> {
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              // Date Warranty
                               Container(
                                 color: Colors.white,
                                 child: Container(
-                                    height: 80,
-                                    margin: const EdgeInsets.only(
-                                        top: 16, bottom: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Center(
-                                      child: ListTile(
-                                        title: DropdownButtonHideUnderline(
-                                          child: DropdownButton(
-                                            hint: _warrantyYear == '1'
-                                                ? Center(
-                                                    child: Text(
-                                                      '1',
-                                                      style: TextStyle(
-                                                          color: AppColor
-                                                              .textSecondarycolor,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  )
-                                                : Center(
-                                                    child: Text(
-                                                      _warrantyYear!,
-                                                      style: TextStyle(
-                                                          color: AppColor
-                                                              .textSecondarycolor,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                            isExpanded: true,
-                                            iconSize: 30.0,
-                                            style: const TextStyle(
-                                                color: Colors.blue),
-                                            items:
-                                                AppConstants.dropdownYear.map(
-                                              (val) {
-                                                return DropdownMenuItem<String>(
-                                                  value: val,
-                                                  child: ListTile(
-                                                      title: Text(val)),
-                                                );
+                                  color: Colors.white,
+                                  margin: const EdgeInsets.only(
+                                      top: 8, bottom: 8, left: 20, right: 15),
+                                  child: Obx(
+                                    () => Row(
+                                      children: [
+                                        const Expanded(
+                                            flex: 3,
+                                            child: Text(
+                                              'Enable Warranty:',
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.black87),
+                                            )),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Switch(
+                                              activeColor:
+                                                  AppColor.primaryColor,
+                                              value: homeScreenController
+                                                  .showWarrantyWidget.value,
+                                              onChanged: (val) {
+                                                homeScreenController
+                                                    .showWarrantyWidget
+                                                    .value = val;
                                               },
-                                            ).toList(),
-                                            onChanged: (String? val) {
-                                              setState(() {
-                                                _warrantyYear = val;
-                                              });
-                                              if (val != 'Lifetime') {
-                                                DateTime t = DateTime.now();
-
-                                                var newDate = DateTime(
-                                                    t.year + int.parse(val!),
-                                                    t.month,
-                                                    t.day);
-                                                homeScreenController
-                                                        .warrantyTillDate.text =
-                                                    newDate
-                                                        .millisecondsSinceEpoch
-                                                        .toString();
-                                              } else {
-                                                homeScreenController
-                                                    .warrantyTillDate
-                                                    .text = "Lifetime";
-                                              }
-                                            },
+                                            ),
                                           ),
                                         ),
-                                        subtitle: const Padding(
-                                          padding: EdgeInsets.only(left: 18.0),
-                                          child: Text('Warranty Year'),
-                                        ),
-                                        trailing: Column(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                homeScreenController
-                                                            .warrantyTillDate
-                                                            .text !=
-                                                        'Lifetime'
-                                                    ? MyDateCalculation()
-                                                        .timestampToDate(
-                                                            homeScreenController
-                                                                .warrantyTillDate
-                                                                .text)
-                                                    : 'Lifetime',
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .resolveWith(
-                                                  (states) =>
-                                                      AppColor.primaryColor,
-                                                )),
-                                                child: const Text(
-                                                    'Warranty Expiry'),
-                                                onPressed: () {
-                                                  // homeScreenController
-                                                  //     .warrantyTillDate.text = 'adsf';
-
-                                                  _selectDate(context);
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
+
+                              // Date Warranty
+                              Obx(() => homeScreenController
+                                      .showWarrantyWidget.value
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Container(
+                                          height: 80,
+                                          margin: const EdgeInsets.only(
+                                              top: 16, bottom: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: ListTile(
+                                              title:
+                                                  DropdownButtonHideUnderline(
+                                                child: DropdownButton(
+                                                  hint: _warrantyYear == '1'
+                                                      ? Center(
+                                                          child: Text(
+                                                            '1',
+                                                            style: TextStyle(
+                                                                color: AppColor
+                                                                    .textSecondarycolor,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )
+                                                      : Center(
+                                                          child: Text(
+                                                            _warrantyYear!,
+                                                            style: TextStyle(
+                                                                color: AppColor
+                                                                    .textSecondarycolor,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                  isExpanded: true,
+                                                  iconSize: 30.0,
+                                                  style: const TextStyle(
+                                                      color: Colors.blue),
+                                                  items: AppConstants
+                                                      .dropdownYear
+                                                      .map(
+                                                    (val) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: val,
+                                                        child: ListTile(
+                                                            title: Text(val)),
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                  onChanged: (String? val) {
+                                                    setState(() {
+                                                      _warrantyYear = val;
+                                                    });
+                                                    if (val != 'Lifetime') {
+                                                      DateTime t =
+                                                          DateTime.now();
+
+                                                      var newDate = DateTime(
+                                                          t.year +
+                                                              int.parse(val!),
+                                                          t.month,
+                                                          t.day);
+                                                      homeScreenController
+                                                              .warrantyTillDate
+                                                              .text =
+                                                          newDate
+                                                              .millisecondsSinceEpoch
+                                                              .toString();
+                                                    } else {
+                                                      homeScreenController
+                                                          .warrantyTillDate
+                                                          .text = "Lifetime";
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                              subtitle: const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 18.0),
+                                                child: Text('Warranty Year'),
+                                              ),
+                                              trailing: Column(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      homeScreenController
+                                                                  .warrantyTillDate
+                                                                  .text !=
+                                                              'Lifetime'
+                                                          ? MyDateCalculation()
+                                                              .timestampToDate(
+                                                                  homeScreenController
+                                                                      .warrantyTillDate
+                                                                      .text)
+                                                          : 'Lifetime',
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ElevatedButton(
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .resolveWith(
+                                                        (states) => AppColor
+                                                            .primaryColor,
+                                                      )),
+                                                      child: const Text(
+                                                          'Warranty Expiry'),
+                                                      onPressed: () {
+                                                        // homeScreenController
+                                                        //     .warrantyTillDate.text = 'adsf';
+
+                                                        _selectDate(context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )),
+                                    )
+                                  : SizedBox()),
+
                               // Shop Purchased
+
                               Container(
                                 color: Colors.white,
                                 child: textFieldContainer(

@@ -6,9 +6,13 @@ import 'package:warranty_track/app/modules/auth/binding/signup_binding.dart';
 import 'package:warranty_track/app/modules/auth/view/login_page.dart';
 import 'package:warranty_track/app/modules/auth/view/signup_page.dart';
 import 'package:warranty_track/app/modules/category/view/categories_screen.dart';
+import 'package:warranty_track/app/modules/feedback/binding/feedback_binding.dart';
 import 'package:warranty_track/app/modules/feedback/view/feedback_screen.dart';
 import 'package:warranty_track/app/modules/home/bindings/home_binding.dart';
 import 'package:warranty_track/app/modules/home/view/home_screen.dart';
+import 'package:warranty_track/app/modules/public_dashboard/binding/public_binding.dart';
+import 'package:warranty_track/app/modules/public_dashboard/view/public_dashboard.dart';
+import 'package:warranty_track/app/modules/settings/binding/settings_binding.dart';
 import 'package:warranty_track/app/modules/settings/view/settings_screen.dart';
 import 'package:warranty_track/app/modules/transaction/binding/transaction_binding.dart';
 import 'package:warranty_track/app/modules/transaction/view/transaction_screen.dart';
@@ -40,7 +44,8 @@ class RoutePage {
     GetPage(
       name: Routes.rTRANSECTION,
       binding: TransactionBinding(),
-      page: () => const TransactionView(),
+      // page: () => const TransactionView(),
+      page: () => const TransactionListPage(),
       middlewares: [AuthMiddleware()],
     ),
     // GetPage(
@@ -65,14 +70,20 @@ class RoutePage {
     GetPage(
       name: Routes.rFeedback,
       page: () => const FeedbackScreen(),
-      // binding: WarrantyBinding(),
+      binding: FeedbackBinding(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.rSettings,
       page: () => const SettingsScreen(),
-      // binding: WarrantyBinding(),
+      binding: SettingsBinding(),
       middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.rPublicdashboard,
+      page: () => const PublicDashboard(),
+      binding: PublicBinding(),
+      // middlewares: [AuthMiddleware()],
     ),
     // GetPage(name: Routes.RATING, page: () => RatingView(), binding: RatingBinding(), middlewares: [AuthMiddleware()]),
     // GetPage(name: Routes.CHAT, page: () => ChatsView(), binding: RootBinding(), middlewares: [AuthMiddleware()]),

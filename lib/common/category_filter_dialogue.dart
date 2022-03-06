@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:warranty_track/app/modules/home/controller/home_controller.dart';
-import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/modules/transaction_details/controller/transaction_details_controller.dart';
 import 'package:warranty_track/common/constants.dart';
 
 class CategoryFilterDialogue extends StatefulWidget {
@@ -48,7 +48,7 @@ class _CategoryFilterDialogueState extends State<CategoryFilterDialogue> {
             const SizedBox(
               height: 10,
             ),
-            GetX<SettingController>(builder: (cont) {
+            GetX<TransactionDetailsController>(builder: (cont) {
               if (cont.catListRx.isNotEmpty) {
                 return ListView.builder(
                     padding: const EdgeInsets.symmetric(vertical: 5),

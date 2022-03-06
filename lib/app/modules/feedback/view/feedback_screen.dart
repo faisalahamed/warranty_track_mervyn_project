@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:warranty_track/app/model/feedback.dart';
+import 'package:warranty_track/app/modules/feedback/controller/feedback_controller.dart';
 import 'package:warranty_track/common/common.dart';
 import 'package:warranty_track/common/constants.dart';
 
-class FeedbackScreen extends StatefulWidget {
+class FeedbackScreen extends GetView<FeedbackController> {
   const FeedbackScreen({Key? key}) : super(key: key);
-
-  @override
-  _FeedbackScreenState createState() => _FeedbackScreenState();
-}
-
-class _FeedbackScreenState extends State<FeedbackScreen> {
-  TextEditingController nameTec = TextEditingController();
-  TextEditingController emailTec = TextEditingController();
-  TextEditingController feedbackTec = TextEditingController();
 
   Widget textFieldContainer({
     String? title,
@@ -46,14 +39,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   @override
-  void dispose() {
-    nameTec.dispose();
-    emailTec.dispose();
-    feedbackTec.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
@@ -72,72 +57,80 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             ),
             textFieldContainer(
               title: 'Name',
-              controller: nameTec,
+              controller: controller.nameTec,
             ),
             textFieldContainer(
               title: 'Email ID',
-              controller: emailTec,
+              controller: controller.emailTec,
             ),
             textFieldContainer(
               title: 'Feedback',
-              controller: feedbackTec,
+              controller: controller.feedbackTec,
               maxLines: 10,
             ),
             const SizedBox(
               height: 20,
             ),
-            GestureDetector(
-              onTap: () {
-                if (nameTec.text.isEmpty) {
-                  CommonFunc().customSnackbar(msg: "Enter Name", isTrue: false);
-                  return;
-                } else if (emailTec.text.isEmpty) {
-                  CommonFunc()
-                      .customSnackbar(msg: "Enter Email ID", isTrue: false);
-                  return;
-                } else if (!RegExp(
-                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                    .hasMatch(emailTec.text)) {
-                  CommonFunc().customSnackbar(
-                      msg: "Enter Valid Email ID", isTrue: false);
-                  return;
-                } else if (feedbackTec.text.isEmpty) {
-                  CommonFunc()
-                      .customSnackbar(msg: "Enter Feedback", isTrue: false);
-                  return;
-                }
+            Obx(
+              () => GestureDetector(
+                  onTap: () {
+                    controller.isSending.value = true;
+                    if (controller.nameTec.text.isEmpty) {
+                      controller.isSending.value = false;
+                      CommonFunc()
+                          .customSnackbar(msg: "Enter Name", isTrue: false);
+                      return;
+                    } else if (controller.emailTec.text.isEmpty) {
+                      controller.isSending.value = false;
+                      CommonFunc()
+                          .customSnackbar(msg: "Enter Email ID", isTrue: false);
+                      return;
+                    } else if (!RegExp(
+                            r'^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                        .hasMatch(controller.emailTec.text)) {
+                      controller.isSending.value = false;
+                      CommonFunc().customSnackbar(
+                          msg: "Enter Valid Email ID", isTrue: false);
+                      return;
+                    } else if (controller.feedbackTec.text.isEmpty) {
+                      controller.isSending.value = false;
+                      CommonFunc()
+                          .customSnackbar(msg: "Enter Feedback", isTrue: false);
+                      return;
+                    }
 
-                FeedbackMail().sendMailApi(
-                  nameTec.text,
-                  emailTec.text,
-                  feedbackTec.text,
-                  () {
-                    CommonFunc().customSnackbar(
-                        msg: "Feedback Submitted Successfully!!!",
-                        isTrue: true);
+                    FeedbackMail().sendMailApi(
+                      controller.nameTec.text,
+                      controller.emailTec.text,
+                      controller.feedbackTec.text,
+                      () {
+                        controller.isSending.value = false;
+                        CommonFunc().customSnackbar(
+                            msg: "Feedback Submitted Successfully!!!",
+                            isTrue: true);
+                      },
+                    );
                   },
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 15,
-                ),
-                width: size.width - 45,
-                decoration: BoxDecoration(
-                  color: AppColor.secondaryColor,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Submit',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: AppColor.textSecondarycolor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 15,
+                    ),
+                    width: size.width - 45,
+                    decoration: BoxDecoration(
+                      color: AppColor.secondaryColor,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      controller.isSending.value ? 'Sending...' : 'Submit',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: AppColor.textSecondarycolor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )),
             ),
           ],
         ),

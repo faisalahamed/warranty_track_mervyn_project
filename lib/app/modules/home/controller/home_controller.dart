@@ -18,6 +18,8 @@ class HomeViewController extends GetxController {
   TextEditingController personWhoServed = TextEditingController();
   TextEditingController note = TextEditingController();
   AuthService _authService = Get.find();
+  bool currentUserSharedStatus = false;
+  Rx<bool> showWarrantyWidget = false.obs;
   // var warrantyTotalYear = '1'.obs;
   var loading = false.obs;
   var long = 0.0.obs;
@@ -27,7 +29,7 @@ class HomeViewController extends GetxController {
 
   final FirebaseConf _firebaseConf = FirebaseConf();
 
-  Future<LocationData?> getCurrentLocation() async {
+  Future getCurrentLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
 
@@ -77,6 +79,9 @@ class HomeViewController extends GetxController {
       nofunc!();
       loading.value = false;
       return;
+    } else {
+      currentUserSharedStatus =
+          await FirebaseConf().currentUserSharedStatus(_authService.user!.uid);
     }
     if (category == null) {
       CommonFunc().customSnackbar(msg: "Select Category", isTrue: false);
@@ -129,27 +134,31 @@ class HomeViewController extends GetxController {
       },
     );
     // }
+    if (amount.text.trim() == '' || receiptImaurl == 'null') {
+      currentUserSharedStatus = false;
+    }
 
     TransactionModel transactionModel = TransactionModel(
-      uid: _authService.user!.uid,
-      category: cat!,
-      dateadded: DateTime.now().toIso8601String(),
-      image: imageurl,
-      rimage: receiptImaurl,
-      sellerimage: sellerimageurl,
-      itemname: itemname.text,
-      price: amount.text,
-      color: null,
-      shoppurchached: shopPurchached.text,
-      personwhoserved: personWhoServed.text,
-      note: note.text,
-      long: isLocation.value ? long.value.toString() : '0.0',
-      lat: isLocation.value ? lat.value.toString() : '0.0',
-      warrantytill: warrantyTillDate.text,
-      warrantyyearcount: warrantyyearcount,
-      isarchived: false,
-      timeadded: DateTime.now().millisecondsSinceEpoch,
-    );
+        uid: _authService.user!.uid,
+        category: cat!,
+        dateadded: DateTime.now().toIso8601String(),
+        image: imageurl,
+        rimage: receiptImaurl,
+        sellerimage: sellerimageurl,
+        itemname: itemname.text,
+        price: amount.text,
+        color: null,
+        shoppurchached: shopPurchached.text,
+        personwhoserved: personWhoServed.text,
+        note: note.text,
+        long: isLocation.value ? long.value.toString() : '0.0',
+        lat: isLocation.value ? lat.value.toString() : '0.0',
+        warrantytill: showWarrantyWidget.value ? warrantyTillDate.text : '0',
+        warrantyyearcount: showWarrantyWidget.value ? warrantyyearcount : '0',
+        isarchived: false,
+        timeadded: DateTime.now().millisecondsSinceEpoch,
+        isShared: currentUserSharedStatus,
+        reportcount: 0);
 
     // Add Transection To Db
     _firebaseConf.addTransectionToDB(transactionModel, func);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:warranty_track/app/modules/transaction_details/controller/setting_controller.dart';
+import 'package:warranty_track/app/modules/transaction_details/controller/transaction_details_controller.dart';
 
 import 'package:warranty_track/common/constants.dart';
 
@@ -14,7 +14,7 @@ class AddCategoryDialogue extends StatefulWidget {
 }
 
 class _AddCategoryDialogueState extends State<AddCategoryDialogue> {
-  SettingController settingController = Get.find();
+  TransactionDetailsController settingController = Get.find();
   List<bool> isSelected = [false, false, false, false, false];
 
   List<String> selectedStringList = [];

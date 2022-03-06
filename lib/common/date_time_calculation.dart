@@ -3,6 +3,9 @@ class MyDateCalculation {
     if (datetime == 'Lifetime') {
       return datetime;
     }
+    if (datetime == '0') {
+      return 'No Warranty';
+    }
     int? date = int.tryParse(datetime);
 
     if (date == null) {

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,11 +6,101 @@ import 'package:flutter/widgets.dart';
 
 import 'package:warranty_track/app/model/category_model.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:warranty_track/app/model/user_model.dart';
 
 class FirebaseConf {
-  final DatabaseReference fref = FirebaseDatabase.instance.reference();
+  final DatabaseReference fref = FirebaseDatabase.instance.ref();
   // final FirebaseAuth fauth = FirebaseAuth.instance;
   final dbstore = FirebaseStorage.instance.ref();
+  final ffs = FirebaseFirestore.instance;
+
+// USER TABLE==============================================================================
+  void addUserSignup(String uid, String? email, String? fullname) async {
+    await ffs.collection('user').doc(uid).set({
+      'email': email,
+      'fullname': fullname,
+      'shared': false,
+      'reportcounter': 0,
+    }, SetOptions(merge: true));
+  }
+
+  void updateUserSharedData(String uid, bool shareStatus) async {
+    await ffs.collection('user').doc(uid).update({
+      'shared': shareStatus,
+    });
+  }
+
+  void updateUserReportCounter(String uid) async {
+    await ffs.collection('user').doc(uid).update({
+      'reportcounter': FieldValue.increment(1),
+    });
+    await currentUser(uid).then((value) {
+      if (value != null) {
+        var user = value as UserModel;
+        print(user.reportcounter);
+        if (user.reportcounter != null && user.reportcounter! >= 2) {
+          updateShareStatusOfTransaction(uid, false);
+          updateUserSharedData(uid, false);
+        }
+      }
+    });
+  }
+
+  Future currentUserSharedStatus(String uid) async {
+    var p = await ffs.collection('user').doc(uid).get()
+      ..data();
+    // return p['shared'];
+    // print(x);
+    if (p['shared'] != null) {
+      // print(p['shared']);
+      return p['shared'];
+    } else
+      return false;
+  }
+
+  Future currentUser(String uid) async {
+    var p = await ffs.collection('user').doc(uid).get()
+      ..data();
+    // return p['shared'];
+    // print(x);
+    if (p.data() != null) {
+      return UserModel.fromJson(p.data()!, uid);
+    }
+
+    return null;
+  }
+
+// Transection TABLE==============================================================================
+  Future updateShareStatusOfTransaction(String uid, bool shareStatus) async {
+    var p = await FirebaseConf()
+        .fref
+        .ref
+        .child("Details")
+        .orderByChild('uid')
+        .equalTo(uid)
+        .once();
+    if (p.snapshot.value != null) {
+      Map data = p.snapshot.value as Map;
+      data.forEach((key, value) async {
+        print(value['image']);
+        if (value['price'] != '' && value['rimage'] != 'null') {
+          await fref
+              .child("Details")
+              .ref
+              .child(key)
+              .update({'isShared': shareStatus});
+          print('here $shareStatus');
+        } else {
+          await fref
+              .child("Details")
+              .ref
+              .child(key)
+              .update({'isShared': false});
+        }
+      });
+    }
+  }
 
   Future<void> addTransectionToDB(
       TransactionModel transactionModel, Function? func) async {
@@ -30,33 +119,13 @@ class FirebaseConf {
     File? image,
     Function func,
   ) async {
-    Random _rednd = Random();
-    String _redstr = _rednd.nextInt(10).toString();
-    String _rst = _rednd.nextInt(4).toString();
-    final ref = dbstore.child('Details').child('$_rst$_redstr.jpg');
+    var time = DateTime.now().microsecondsSinceEpoch.toString();
+    final ref = dbstore.child('Details').child('$time.jpg');
     await ref.putFile(image!).catchError((error) {}).then((_) async {
       String url = await ref.getDownloadURL();
+      print('Image URL: $url');
       func(url);
     });
-  }
-
-// Category Database
-  Future<void> addCategory(String category, String uid) async {
-    await fref.child('Categories').push().set({
-      "name": category,
-      "count": 0,
-      "uid": uid,
-    });
-  }
-
-  Future<void> deleteCategory(String id) async {
-    await fref.child('Categories').child(id).remove();
-  }
-
-  void reorderFire(List<CategoryModel> category) {
-    for (int i = 0; i < category.length; i++) {
-      fref.child("Categories").child(category[i].id).child("count").set(i);
-    }
   }
 
   void updateTransaction(String id, String title, dynamic value) async {
@@ -85,4 +154,32 @@ class FirebaseConf {
         : null;
     await fref.child('Details').child(transactionModel.id).remove();
   }
+
+// Category Database TABLE==============================================================================
+  Future<void> addCategory(String category, String uid) async {
+    await fref.child('Categories').push().set({
+      "name": category,
+      "count": 0,
+      "uid": uid,
+    });
+  }
+
+  Future<void> deleteCategory(String id) async {
+    await fref.child('Categories').child(id).remove();
+  }
+
+  void reorderFire(List<CategoryModel> category) {
+    for (int i = 0; i < category.length; i++) {
+      fref.child("Categories").child(category[i].id).child("count").set(i);
+    }
+  }
+
+// App Version Table==============================================================================
+//  Future<void> setAppVersion() async {
+//     await fref.child('appdata').push().set({
+//       "version": '1.0.2',
+//       "lastUpdateDate": 0,
+//     });
+//   }
+
 }

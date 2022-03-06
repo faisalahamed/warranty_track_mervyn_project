@@ -95,15 +95,17 @@ class _TranseactionWarrantyDateState extends State<TranseactionWarrantyDate> {
                               // val != null ? _warrantyYear = val : null;
                               val != null ? selectedVlue = val : null;
                             });
-                            if (val != 'Lifetime') {
+                            if (val == 'No Warranty') {
+                              selectedDate = '0';
+                            } else if (val == 'Lifetime') {
+                              selectedDate = "Lifetime";
+                            } else {
                               DateTime t = DateTime.now();
 
                               var newDate = DateTime(
                                   t.year + int.parse(val!), t.month, t.day);
                               selectedDate =
                                   newDate.millisecondsSinceEpoch.toString();
-                            } else {
-                              selectedDate = "Lifetime";
                             }
                             // setState(() {});
                           },
@@ -124,20 +126,21 @@ class _TranseactionWarrantyDateState extends State<TranseactionWarrantyDate> {
                             ),
                           ),
                           Expanded(
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.resolveWith(
-                                (states) => AppColor.primaryColor,
-                              )),
-                              child: const Text('Change Date'),
-                              onPressed: () {
-                                // homeScreenController
-                                //     .warrantyTillDate.text = 'adsf';
-
-                                _selectDate(context);
-                              },
-                            ),
+                            child: selectedVlue != 'Lifetime' &&
+                                    selectedVlue != 'No Warranty' &&
+                                    selectedVlue != '0'
+                                ? ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.resolveWith(
+                                      (states) => AppColor.primaryColor,
+                                    )),
+                                    child: const Text('Change Date'),
+                                    onPressed: () {
+                                      _selectDate(context);
+                                    },
+                                  )
+                                : SizedBox(),
                           ),
                         ],
                       ),

@@ -20,27 +20,30 @@ class TransactionModel {
   late bool isarchived;
   late int timeadded;
   late String uid;
+  late bool isShared;
+  late int reportcount;
 
-  TransactionModel({
-    required this.category,
-    required this.dateadded,
-    required this.image,
-    required this.rimage,
-    required this.itemname,
-    required this.uid,
-    this.price,
-    this.color,
-    required this.sellerimage,
-    this.shoppurchached,
-    this.personwhoserved,
-    this.note,
-    this.long,
-    this.lat,
-    required this.warrantytill,
-    required this.warrantyyearcount,
-    required this.isarchived,
-    required this.timeadded,
-  });
+  TransactionModel(
+      {required this.category,
+      required this.dateadded,
+      required this.image,
+      required this.rimage,
+      required this.itemname,
+      required this.uid,
+      this.price,
+      this.color,
+      required this.sellerimage,
+      this.shoppurchached,
+      this.personwhoserved,
+      this.note,
+      this.long,
+      this.lat,
+      required this.warrantytill,
+      required this.warrantyyearcount,
+      required this.isarchived,
+      required this.timeadded,
+      required this.isShared,
+      required this.reportcount});
 
   TransactionModel.fromJson(Map<dynamic, dynamic> json, String docid) {
     id = docid;
@@ -48,6 +51,7 @@ class TransactionModel {
     category = json['category'];
     dateadded = json['dateadded'];
     image = json['image'];
+    isShared = json['isShared'];
     rimage = json['rimage'];
     itemname = json['itemname'];
     price = json['price'];
@@ -62,6 +66,7 @@ class TransactionModel {
     warrantyyearcount = json['warrantyyearcount'];
     isarchived = json['isarchived'];
     timeadded = json['timeadded'];
+    reportcount = json['reportcount'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -74,6 +79,7 @@ class TransactionModel {
     _data['rimage'] = rimage;
     _data['itemname'] = itemname;
     _data['price'] = price;
+    _data['isShared'] = isShared;
 
     _data['color'] = color;
     _data['sellerimage'] = sellerimage;
@@ -86,6 +92,31 @@ class TransactionModel {
     _data['warrantyyearcount'] = warrantyyearcount;
     _data['isarchived'] = isarchived;
     _data['timeadded'] = timeadded;
+    _data['reportcount'] = reportcount;
     return _data;
+  }
+
+  TransactionModel.fromStream(Map<dynamic, dynamic> json, String docid) {
+    id = docid;
+    uid = json['uid'];
+    category = json['category'];
+    dateadded = json['dateadded'];
+    image = json['image'];
+    isShared = json['isShared'];
+    rimage = json['rimage'];
+    itemname = json['itemname'];
+    price = json['price'];
+    color = json['color'];
+    sellerimage = json['sellerimage'];
+    shoppurchached = json['shoppurchached'];
+    personwhoserved = json['personwhoserved'];
+    note = json['note'];
+    long = json['long'];
+    lat = json['lat'];
+    warrantytill = json['warrantytill'];
+    warrantyyearcount = json['warrantyyearcount'];
+    isarchived = json['isarchived'];
+    timeadded = json['timeadded'];
+    reportcount = json['reportcount'] ?? 0;
   }
 }

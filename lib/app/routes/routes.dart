@@ -9,6 +9,7 @@ class Routes {
   static const rWARRANTY = '/warranty';
   static const rFeedback = '/feedback';
   static const rSettings = '/settings';
+  static const rPublicdashboard = '/publicdashboard';
   // static const PHONE_VERIFICATION = '/phone_verification';
 
   // static const ROOT = '/root';
