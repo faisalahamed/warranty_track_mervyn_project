@@ -29,4 +29,27 @@ class DatabaseService {
       return list.reversed.toList();
     });
   }
+
+  Stream<List<TransactionModel>> globalTransactionListStream() {
+    return _firebaseDatabase
+        .ref()
+        .child("Details")
+        .orderByChild('isShared')
+        .equalTo(true)
+        .onValue
+        .map((event) {
+      List<TransactionModel> list = [];
+      Map x = event.snapshot.value as Map;
+      x.forEach((element, x) {
+        // print('===================$element');
+        if (x['reportcount'] == null) {
+          list.add(TransactionModel.fromStream(x, element));
+        } else if (x['reportcount'] < 5) {
+          list.add(TransactionModel.fromStream(x, element));
+        }
+      });
+
+      return list.reversed.toList();
+    });
+  }
 }

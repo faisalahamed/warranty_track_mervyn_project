@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:warranty_track/app/modules/transaction/controller/transaction_list_page_controller.dart';
-import 'package:warranty_track/app/modules/transaction/view/transaction_list_widget.dart';
+import 'package:warranty_track/common/transaction_list_widget.dart';
 import 'package:warranty_track/common/category_filter_dialogue.dart';
 import 'package:warranty_track/common/constants.dart';
 
@@ -23,7 +23,7 @@ class TransactionListPage extends GetWidget<TransactionListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             centerTitle: false,
@@ -65,20 +65,33 @@ class TransactionListPage extends GetWidget<TransactionListController> {
               ),
             ],
             bottom: TabBar(
+              labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
               indicatorColor: AppColor.lightPrimarycolor,
               tabs: [
+                Tab(text: "Global", icon: Icon(Icons.public)),
                 Tab(
                     text: "My Transactions",
                     icon: Icon(Icons.list_alt_outlined)),
-                Tab(
-                    text: "Shared Transactions",
-                    icon: Icon(Icons.share_outlined)),
+                Tab(text: "My Shares", icon: Icon(Icons.share_outlined)),
               ],
             ),
             // title: Text('Tabs Demo'),
           ),
           body: TabBarView(
             children: [
+              Obx(
+                () => controller.globalTransactionStreamList.value.length != 0
+                    ? TransactionListWidget(
+                        translist: controller.globalTransactionStreamList.value,
+                        isReport: true,
+                        isEdit: false,
+                      )
+                    : SizedBox(
+                        child: Image.asset(
+                          AppImages.dnf,
+                        ),
+                      ),
+              ),
               Obx(
                 () => controller.transactionStreamList.value.length != 0
                     ? TransactionListWidget(

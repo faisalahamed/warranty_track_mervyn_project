@@ -6,12 +6,16 @@ class TransactionListController extends GetxController {
   // TabController tabController = TabController();
   final Rx<List<TransactionModel>> transactionStreamList =
       Rx<List<TransactionModel>>([]);
+  final Rx<List<TransactionModel>> globalTransactionStreamList =
+      Rx<List<TransactionModel>>([]);
 
   var searchCategory = Rx<List<String>>([]);
 
   @override
   void onInit() {
     transactionStreamList.bindStream(DatabaseService().transactionListStream());
+     globalTransactionStreamList
+        .bindStream(DatabaseService().globalTransactionListStream());
     // isLoading.value = false;
     super.onInit();
   }

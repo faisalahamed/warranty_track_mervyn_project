@@ -139,26 +139,26 @@ class HomeViewController extends GetxController {
     }
 
     TransactionModel transactionModel = TransactionModel(
-      uid: _authService.user!.uid,
-      category: cat!,
-      dateadded: DateTime.now().toIso8601String(),
-      image: imageurl,
-      rimage: receiptImaurl,
-      sellerimage: sellerimageurl,
-      itemname: itemname.text,
-      price: amount.text,
-      color: null,
-      shoppurchached: shopPurchached.text,
-      personwhoserved: personWhoServed.text,
-      note: note.text,
-      long: isLocation.value ? long.value.toString() : '0.0',
-      lat: isLocation.value ? lat.value.toString() : '0.0',
-      warrantytill: showWarrantyWidget.value ? warrantyTillDate.text:'0',
-      warrantyyearcount: showWarrantyWidget.value ? warrantyyearcount : '0',
-      isarchived: false,
-      timeadded: DateTime.now().millisecondsSinceEpoch,
-      isShared: currentUserSharedStatus,
-    );
+        uid: _authService.user!.uid,
+        category: cat!,
+        dateadded: DateTime.now().toIso8601String(),
+        image: imageurl,
+        rimage: receiptImaurl,
+        sellerimage: sellerimageurl,
+        itemname: itemname.text,
+        price: amount.text,
+        color: null,
+        shoppurchached: shopPurchached.text,
+        personwhoserved: personWhoServed.text,
+        note: note.text,
+        long: isLocation.value ? long.value.toString() : '0.0',
+        lat: isLocation.value ? lat.value.toString() : '0.0',
+        warrantytill: showWarrantyWidget.value ? warrantyTillDate.text : '0',
+        warrantyyearcount: showWarrantyWidget.value ? warrantyyearcount : '0',
+        isarchived: false,
+        timeadded: DateTime.now().millisecondsSinceEpoch,
+        isShared: currentUserSharedStatus,
+        reportcount: 0);
 
     // Add Transection To Db
     _firebaseConf.addTransectionToDB(transactionModel, func);

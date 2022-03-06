@@ -108,12 +108,12 @@ class LoginView extends GetView<LoginController> {
                 InkWell(
                   onTap: () {
                     FocusScope.of(context).unfocus();
-               
+
                     controller.login();
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 18,
+                      vertical: 15,
                     ),
                     margin: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -122,7 +122,7 @@ class LoginView extends GetView<LoginController> {
                     width: size.width,
                     decoration: BoxDecoration(
                       color: AppColor.secondaryColor,
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -136,28 +136,56 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: () async {
-                    AuthService _authService = Get.find();
-                    await _authService.signInWithGoogle();
-                  },
-                  child: Container(
-                    color: Colors.grey[200],
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 90, vertical: 10),
-                    child: ListTile(
-                      title: Text(
-                        'Google',
-                        style: TextStyle(color: AppColor.textSecondarycolor),
-                      ),
-                      leading: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 2, vertical: 8),
-                        child: Image.asset('assets/icons/google.png'),
-                      ),
+
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.blue,
+                  ),
+                  width: 200,
+                  // margin: EdgeInsets.zero,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: InkWell(
+                    onTap: () async {
+                      AuthService _authService = Get.find();
+                      await _authService.signInWithGoogle();
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            padding: EdgeInsets.only(left: 0),
+                            alignment: Alignment.centerLeft,
+                            child: Image.asset(
+                              'assets/icons/google.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Center(
+                            child: Text(
+                              'Sign in with Google',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

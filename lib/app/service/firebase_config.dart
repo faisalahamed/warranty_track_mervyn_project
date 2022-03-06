@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:warranty_track/app/model/category_model.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:warranty_track/app/model/user_model.dart';
 
 class FirebaseConf {
   final DatabaseReference fref = FirebaseDatabase.instance.ref();
@@ -20,12 +21,29 @@ class FirebaseConf {
       'email': email,
       'fullname': fullname,
       'shared': false,
+      'reportcounter': 0,
     }, SetOptions(merge: true));
   }
 
   void updateUserSharedData(String uid, bool shareStatus) async {
     await ffs.collection('user').doc(uid).update({
       'shared': shareStatus,
+    });
+  }
+
+  void updateUserReportCounter(String uid) async {
+    await ffs.collection('user').doc(uid).update({
+      'reportcounter': FieldValue.increment(1),
+    });
+    await currentUser(uid).then((value) {
+      if (value != null) {
+        var user = value as UserModel;
+        print(user.reportcounter);
+        if (user.reportcounter != null && user.reportcounter! >= 2) {
+          updateShareStatusOfTransaction(uid, false);
+          updateUserSharedData(uid, false);
+        }
+      }
     });
   }
 
@@ -39,6 +57,18 @@ class FirebaseConf {
       return p['shared'];
     } else
       return false;
+  }
+
+  Future currentUser(String uid) async {
+    var p = await ffs.collection('user').doc(uid).get()
+      ..data();
+    // return p['shared'];
+    // print(x);
+    if (p.data() != null) {
+      return UserModel.fromJson(p.data()!, uid);
+    }
+
+    return null;
   }
 
 // Transection TABLE==============================================================================

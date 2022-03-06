@@ -1,5 +1,6 @@
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:warranty_track/app/model/user_model.dart';
 import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -7,6 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 class SettingsController extends GetxController {
   var isEnabled = false.obs;
   AuthService authService = AuthService();
+  Rx<bool> userBlocked = false.obs;
   Rx<PackageInfo> info = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
@@ -26,6 +28,19 @@ class SettingsController extends GetxController {
     if (authService.auth.currentUser != null) {
       isEnabled.value = await FirebaseConf()
           .currentUserSharedStatus(authService.auth.currentUser!.uid);
+
+      await FirebaseConf()
+          .currentUser(authService.auth.currentUser!.uid)
+          .then((val) {
+        if (val != null) {
+          var usermodel = val as UserModel;
+
+          if (usermodel.reportcounter != null &&
+              usermodel.reportcounter! >= 2) {
+            userBlocked.value = true;
+          }
+        }
+      });
     }
   }
 

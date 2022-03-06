@@ -5,67 +5,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
-// import 'package:warranty_track/app/modules/transaction/controller/transaction_controller.dart';
 import 'package:warranty_track/app/modules/transaction_details/view/transaction_detail_screen.dart';
-import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
-import 'package:warranty_track/common/category_filter_dialogue.dart';
 import 'package:warranty_track/common/constants.dart';
-import 'package:warranty_track/common/date_filter_dialogue.dart';
 
 class TransactionListWidget extends StatelessWidget {
-  // List<String> selectedCategories = [];
-  List<TransactionModel> translist = [];
-  TransactionListWidget({Key? key, required this.translist}) : super(key: key);
+  final List<TransactionModel> translist;
 
-  // DateTime? _start;
-  // DateTime? _end;
-
-  // AuthService _authService = Get.find();
-
-  // categoryWiseFilterDialogue() {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return CategoryFilterDialogue(func: (value) {
-  //           selectedCategories = value;
-  //           setState(() {});
-  //         });
-  //       });
-  // }
-
-  // dateWiseFilterDialogue() {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return DateFilterDialogue(func: (DateTime? start, DateTime? end) {
-  //           _start = start;
-  //           _end = end;
-  //           setState(() {});
-  //         });
-  //       });
-  // }
+  final bool isReport;
+  final bool isEdit;
+  const TransactionListWidget(
+      {Key? key,
+      required this.translist,
+      this.isReport = false,
+      this.isEdit = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    // final Stream _api = FirebaseConf()
-    //     .fref
-    //     .ref
-    //     .child("Details")
-    //     .orderByChild('uid')
-    //     .equalTo(_authService.user!.uid)
-    //     // .orderByChild('isShared')
-    //     // .equalTo(true)
-    //     .onValue;
     List<Color> _rendColor = [
       AppColor.successColor,
       AppColor.secondaryColor,
       Colors.blue,
     ];
 
-    // transactionController.addintorxlist(_translist);
     return SingleChildScrollView(
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 3),
@@ -75,14 +40,18 @@ class TransactionListWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Get.to(
-                () => TransactionDetailScreen(
-                  transectionItem: translist[index],
-                ),
-              );
+              print('edit');
+              isEdit
+                  ? Get.to(
+                      () => TransactionDetailScreen(
+                        transectionItem: translist[index],
+                      ),
+                    )
+                  : null;
             },
             child: Container(
-              height: size.height * 0.15,
+              // height: size.height * 0.15,
+              height: 120,
               margin: const EdgeInsets.symmetric(vertical: 3),
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -97,6 +66,7 @@ class TransactionListWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
@@ -184,20 +154,84 @@ class TransactionListWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  CachedNetworkImage(
-                    imageUrl: translist[index].image == "null"
-                        ? translist[index].rimage
-                        : translist[index].image,
-                    placeholder: (context, url) => Container(
-                      color: Colors.black12,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(),
+                  Expanded(
+                    flex: 1,
+                    child: Stack(
+                      children: [
+                        Align(
+                            alignment: Alignment.center,
+                            child: transactionImage(index, size)),
+                        isReport
+                            ? Align(
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                    onPressed: () {
+                                      print(translist[index].itemname);
+                                      Get.defaultDialog(
+                                        title: "Report this Transaction",
+                                        content: ListTile(
+                                          title: Text('Name: ' +
+                                              translist[index].itemname),
+                                          subtitle: Text('Price: ' +
+                                              translist[index]
+                                                  .price
+                                                  .toString()),
+                                          trailing: SizedBox(
+                                            height: 50,
+                                            width: 80,
+                                            child:
+                                                transactionImage(index, size),
+                                          ),
+                                        ),
+                                        cancel: ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      AppColor.primaryColor)),
+                                          child: const Text('Cancel'),
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                        ),
+                                        confirm: ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      AppColor.secondaryColor)),
+                                          child: const Text('Yes'),
+                                          onPressed: () {
+                                            // TODO: send email of spam
+
+                                            // Update User report Counter
+                                            if (translist[index].reportcount ==
+                                                4) {
+                                              FirebaseConf()
+                                                  .updateUserReportCounter(
+                                                      translist[index].uid);
+                                            }
+
+                                            // Update database of report
+                                            FirebaseConf().updateTransaction(
+                                                translist[index].id,
+                                                'reportcount',
+                                                translist[index].reportcount +
+                                                    1);
+                                            Get.back();
+                                            Get.snackbar('Thanks',
+                                                'Spam Reported Successfully',
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                                backgroundColor: Colors.grey);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(Icons.report_gmailerrorred),
+                                    color: AppColor.dangerColor),
+                              )
+                            : SizedBox(),
+                      ],
                     ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    height: size.height,
-                    width: 140,
-                    fit: BoxFit.cover,
                   ),
                 ],
               ),
@@ -205,6 +239,23 @@ class TransactionListWidget extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  CachedNetworkImage transactionImage(int index, Size size) {
+    return CachedNetworkImage(
+      imageUrl: translist[index].image == "null"
+          ? translist[index].rimage
+          : translist[index].image,
+      placeholder: (context, url) => Container(
+        color: Colors.black12,
+        alignment: Alignment.center,
+        child: const CircularProgressIndicator(),
+      ),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+      height: size.height,
+      width: 140,
+      fit: BoxFit.cover,
     );
   }
 }

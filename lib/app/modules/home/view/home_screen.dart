@@ -12,6 +12,7 @@ import 'package:warranty_track/app/modules/auth/controller/login_controller.dart
 import 'package:warranty_track/app/modules/home/controller/home_controller.dart';
 import 'package:warranty_track/app/modules/home/view/home_widgets/map_dialog.dart';
 import 'package:warranty_track/app/modules/transaction_details/controller/transaction_details_controller.dart';
+import 'package:warranty_track/app/routes/routes.dart';
 import 'package:warranty_track/app/service/auth_service.dart';
 import 'package:warranty_track/app/service/firebase_config.dart';
 import 'package:warranty_track/common/common.dart';
@@ -197,7 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
-        height: size!.height * 0.21,
+        // height: size!.height * 0.21,
+        height: 165,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(20),
@@ -238,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Image(
                   image: FileImage(pickImage),
                   fit: BoxFit.cover,
-                  width: size.width,
+                  width: size!.width,
                   height: size.height,
                 ),
               ),
@@ -302,8 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Stream _api =
-        FirebaseConf().fref.ref.child("Categories").onValue;
+    final Stream _api = FirebaseConf().fref.ref.child("Categories").onValue;
 
     return Scaffold(
       key: _key,
@@ -411,7 +412,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       // Select Category
 
                       SizedBox(
-                        height: size.height * 0.045,
+                        // height: size.height * 0.045,
+                        height: 36,
                         width: size.width * 1,
                         child: StreamBuilder(
                           stream: _api,
@@ -440,45 +442,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               _transactiondetailsConroller.getCatData(_catList);
 
-                              return ListView.builder(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: _catList.length,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        FocusScope.of(context).unfocus();
-                                        setState(() {
-                                          selectedString =
-                                              _catList[index].catName;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 15),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          color: selectedString ==
-                                                  _catList[index].catName
-                                              ? AppColor.secondaryColor
-                                              : AppColor.primaryColor,
-                                        ),
-                                        child: Text(
-                                          _catList[index].catName,
-                                          style: TextStyle(
-                                            color: selectedString ==
-                                                    _catList[index].catName
-                                                ? AppColor.primaryColor
-                                                : Colors.white,
+                              return _catList.length > 0
+                                  ? ListView.builder(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: _catList.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: () {
+                                            FocusScope.of(context).unfocus();
+                                            setState(() {
+                                              selectedString =
+                                                  _catList[index].catName;
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 15),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              color: selectedString ==
+                                                      _catList[index].catName
+                                                  ? AppColor.secondaryColor
+                                                  : AppColor.primaryColor,
+                                            ),
+                                            child: Text(
+                                              _catList[index].catName,
+                                              style: TextStyle(
+                                                color: selectedString ==
+                                                        _catList[index].catName
+                                                    ? AppColor.primaryColor
+                                                    : Colors.white,
+                                              ),
+                                            ),
                                           ),
+                                        );
+                                      })
+                                  : Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: size.width / 3.5),
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    AppColor.secondaryColor
+                                                        .withOpacity(0.7))),
+                                        child: const Text(
+                                          'Add Category +',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
                                         ),
+                                        onPressed: () {
+                                          Get.toNamed(Routes.rCATEGORY);
+                                        },
                                       ),
                                     );
-                                  });
                             } else {
-                              return Container();
+                              return SizedBox();
                             }
                           },
                         ),
@@ -488,7 +511,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 // Image Picker
                 Positioned(
-                  top: size.height * 0.145,
+                  // top: size.height * 0.145,
+                  top: 110,
                   child: SizedBox(
                     width: size.width,
                     child: Padding(
@@ -525,7 +549,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 // input field
                 Container(
-                  margin: EdgeInsets.only(top: size.height * 0.378),
+                  // margin: EdgeInsets.only(top: size.height * 0.378),
+                  margin: EdgeInsets.only(top: 290),
                   width: size.width,
                   child: Container(
                     margin:
@@ -607,7 +632,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 homeScreenController
                                                     .showWarrantyWidget
                                                     .value = val;
-
                                               },
                                             ),
                                           ),

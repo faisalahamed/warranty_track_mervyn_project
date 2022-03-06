@@ -104,15 +104,6 @@ class MyNavigationDrawer extends StatelessWidget {
             },
           ),
           drawerItem(
-            title: 'Settings',
-            onTap: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-              // Get.to(() => const SettingsScreen());
-              Get.toNamed(Routes.rSettings);
-            },
-          ),
-          drawerItem(
             title: 'Warranty',
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -121,8 +112,18 @@ class MyNavigationDrawer extends StatelessWidget {
               Get.toNamed(Routes.rWARRANTY);
             },
           ),
+          drawerItem(
+            title: 'Settings',
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+              // Get.to(() => const SettingsScreen());
+              Get.toNamed(Routes.rSettings);
+            },
+          ),
+
           // drawerItem(
-          //   title: 'web version (Test)',
+          //   title: 'Global Transaction',
           //   onTap: () {
           //     FocusScope.of(context).unfocus();
           //     Navigator.pop(context);

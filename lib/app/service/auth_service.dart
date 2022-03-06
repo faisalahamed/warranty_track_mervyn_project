@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:warranty_track/app/modules/auth/view/login_page.dart';
@@ -38,6 +39,7 @@ class AuthService extends GetxService {
   }
 
   void createUser(String email, String password) async {
+    showLoading(loading_message: "Sign up in Progress..");
     try {
       UserCredential _userCred = await auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password);
@@ -46,6 +48,7 @@ class AuthService extends GetxService {
             _userCred.user!.uid, _userCred.user!.email, 'My name');
       }
     } catch (e) {
+      Get.back();
       Get.snackbar(
         "Error creating Account",
         e.toString(),
@@ -56,14 +59,18 @@ class AuthService extends GetxService {
 
   void login(String email, String password) async {
     try {
-      await auth.signInWithEmailAndPassword(
-          email: email.trim(), password: password);
+      showLoading();
+      await auth
+          .signInWithEmailAndPassword(email: email.trim(), password: password)
+          .then((value) => Get.back());
     } catch (e) {
+      Get.back();
       Get.snackbar(
         "Error signing in",
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
+      // Get.back();
     }
   }
 
@@ -83,8 +90,7 @@ class AuthService extends GetxService {
   }
 
   Future<void> signInWithGoogle() async {
-    print('hello=============');
-
+    showLoading(loading_message: 'Signing in with google....');
     try {
       final googleUser = await googleSignIn.signIn();
       if (googleUser != null) {
@@ -103,6 +109,7 @@ class AuthService extends GetxService {
           }
         }
       } else {
+        Get.back();
         Get.snackbar(
           "Signing In Cancel",
           'Something went wrong.Please try again',
@@ -116,5 +123,31 @@ class AuthService extends GetxService {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  void showLoading({String loading_message = 'Siging in. Please Wait...'}) {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Container(
+            height: 40,
+            child: Row(
+              children: [
+                SizedBox(height: 20),
+                Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+                SizedBox(height: 20),
+                Text(loading_message)
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

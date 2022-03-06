@@ -51,30 +51,42 @@ class SettingsScreen extends GetView<SettingsController> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               trailing: Obx(
-                () => Switch(
-                  value: controller.isEnabled.value,
-                  onChanged: (bool val) {
-                    controller.isEnabled.value = val;
-                    controller.updateUserShareStatus();
-                    controller.updateShareStatusOfTransaction();
-                  },
-                ),
+                () => !controller.userBlocked.value
+                    ? Switch(
+                        value: controller.isEnabled.value,
+                        onChanged: (bool val) {
+                          controller.isEnabled.value = val;
+                          controller.updateUserShareStatus();
+                          controller.updateShareStatusOfTransaction();
+                        },
+                      )
+                    : Text('Your Account is Blocked.\nContact the admin'),
               ),
-              subtitle: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Items with price and receipt will be shared.\n',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    TextSpan(
-                      text: 'Your personal identity will not be shared.',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-            )
+            ),
+            Obx(
+              () => !controller.userBlocked.value
+                  ? Wrap(
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text:
+                                    'Items with price and receipt will be shared.\n',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              TextSpan(
+                                text:
+                                    'Your personal identity will not be shared.',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
+            ),
           ],
         ),
       ),

@@ -93,7 +93,6 @@ class SignUpView extends GetView<SignUpController> {
                 ),
                 InkWell(
                   onTap: () {
-                 
                     controller.createUser();
                   },
                   child: Container(
@@ -107,7 +106,7 @@ class SignUpView extends GetView<SignUpController> {
                     width: size.width,
                     decoration: BoxDecoration(
                       color: AppColor.secondaryColor,
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     alignment: Alignment.center,
                     child: Text(

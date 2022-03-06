@@ -21,6 +21,7 @@ class TransactionModel {
   late int timeadded;
   late String uid;
   late bool isShared;
+  late int reportcount;
 
   TransactionModel(
       {required this.category,
@@ -41,7 +42,8 @@ class TransactionModel {
       required this.warrantyyearcount,
       required this.isarchived,
       required this.timeadded,
-      required this.isShared});
+      required this.isShared,
+      required this.reportcount});
 
   TransactionModel.fromJson(Map<dynamic, dynamic> json, String docid) {
     id = docid;
@@ -64,6 +66,7 @@ class TransactionModel {
     warrantyyearcount = json['warrantyyearcount'];
     isarchived = json['isarchived'];
     timeadded = json['timeadded'];
+    reportcount = json['reportcount'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +92,7 @@ class TransactionModel {
     _data['warrantyyearcount'] = warrantyyearcount;
     _data['isarchived'] = isarchived;
     _data['timeadded'] = timeadded;
+    _data['reportcount'] = reportcount;
     return _data;
   }
 
@@ -113,5 +117,6 @@ class TransactionModel {
     warrantyyearcount = json['warrantyyearcount'];
     isarchived = json['isarchived'];
     timeadded = json['timeadded'];
+    reportcount = json['reportcount'] ?? 0;
   }
 }
