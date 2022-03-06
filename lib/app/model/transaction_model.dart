@@ -92,7 +92,8 @@ class TransactionModel {
     return _data;
   }
 
-  TransactionModel.fromStream(Map<dynamic, dynamic> json) {
+  TransactionModel.fromStream(Map<dynamic, dynamic> json, String docid) {
+    id = docid;
     uid = json['uid'];
     category = json['category'];
     dateadded = json['dateadded'];

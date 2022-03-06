@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -90,12 +89,11 @@ class FirebaseConf {
     File? image,
     Function func,
   ) async {
-    Random _rednd = Random();
-    String _redstr = _rednd.nextInt(10).toString();
-    String _rst = _rednd.nextInt(4).toString();
-    final ref = dbstore.child('Details').child('$_rst$_redstr.jpg');
+    var time = DateTime.now().microsecondsSinceEpoch.toString();
+    final ref = dbstore.child('Details').child('$time.jpg');
     await ref.putFile(image!).catchError((error) {}).then((_) async {
       String url = await ref.getDownloadURL();
+      print('Image URL: $url');
       func(url);
     });
   }

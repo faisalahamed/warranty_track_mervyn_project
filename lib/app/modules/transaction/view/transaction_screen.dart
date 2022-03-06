@@ -2,10 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:warranty_track/app/modules/transaction/controller/transaction_list_page_controller.dart';
 import 'package:warranty_track/app/modules/transaction/view/transaction_list_widget.dart';
+import 'package:warranty_track/common/category_filter_dialogue.dart';
 import 'package:warranty_track/common/constants.dart';
 
 class TransactionListPage extends GetWidget<TransactionListController> {
   const TransactionListPage({Key? key}) : super(key: key);
+
+  categoryWiseFilterDialogue(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CategoryFilterDialogue(func: (value) {
+            controller.searchCategory.value = value;
+            controller.search();
+          });
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +36,7 @@ class TransactionListPage extends GetWidget<TransactionListController> {
                 child: GestureDetector(
                   onTap: () {
                     // TODO: Date filter
-                    // categoryWiseFilterDialogue();
+                    categoryWiseFilterDialogue(context);
                   },
                   child: Image(
                     image: AssetImage(AppIcons.filter),
@@ -67,8 +79,27 @@ class TransactionListPage extends GetWidget<TransactionListController> {
           ),
           body: TabBarView(
             children: [
-              TransactionListWidget(),
-              Icon(Icons.directions_transit, size: 350),
+              Obx(
+                () => controller.transactionStreamList.value.length != 0
+                    ? TransactionListWidget(
+                        translist: controller.transactionStreamList.value)
+                    : SizedBox(
+                        child: Image.asset(
+                          AppImages.dnf,
+                        ),
+                      ),
+              ),
+              Obx(
+                () => controller.getSharedList().length != 0
+                    ? TransactionListWidget(
+                        translist: controller.getSharedList())
+                    : SizedBox(
+                        child: Image.asset(
+                          AppImages.dnf,
+                        ),
+                      ),
+              ),
+              // Icon(Icons.directions_transit, size: 350),
             ],
           ),
         ),
