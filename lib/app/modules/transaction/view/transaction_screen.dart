@@ -14,7 +14,7 @@ class TransactionListPage extends GetWidget<TransactionListController> {
         builder: (BuildContext context) {
           return CategoryFilterDialogue(func: (value) {
             controller.searchCategory.value = value;
-            controller.search();
+            // controller.search();
           });
         });
   }
@@ -30,43 +30,16 @@ class TransactionListPage extends GetWidget<TransactionListController> {
             title: const Text("Transactions"),
             backgroundColor: AppColor.primaryColor,
             elevation: 0,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                child: GestureDetector(
-                  onTap: () {
-                    // TODO: Date filter
-                    categoryWiseFilterDialogue(context);
-                  },
-                  child: Image(
-                    image: AssetImage(AppIcons.filter),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                child: GestureDetector(
-                  onTap: () {
-                    // TODO: Date filter
-                    // dateWiseFilterDialogue();
-                  },
-                  child: Image(
-                    image: AssetImage(AppIcons.calendar),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-            ],
+            actions: appbarIcon(context),
             bottom: TabBar(
               labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
               indicatorColor: AppColor.lightPrimarycolor,
+              onTap: (tab) {
+                // final index = DefaultTabController.of(context).index;
+                // print(DefaultTabController.of(context).index??'a');
+
+                controller.selectedTab.value = tab;
+              },
               tabs: [
                 Tab(text: "Global", icon: Icon(Icons.public)),
                 Tab(
@@ -118,5 +91,44 @@ class TransactionListPage extends GetWidget<TransactionListController> {
         ),
       ),
     );
+  }
+
+  List<Widget> appbarIcon(BuildContext context) {
+    return [
+      Obx(() => controller.selectedTab.value != 0
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: GestureDetector(
+                onTap: () {
+                  // TODO: Date filter
+                  // categoryWiseFilterDialogue(context);
+                },
+                child: Image(
+                  image: AssetImage(AppIcons.filter),
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : SizedBox()),
+      const SizedBox(
+        width: 20,
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 18),
+        child: GestureDetector(
+          onTap: () {
+            // TODO: Date filter
+            // dateWiseFilterDialogue();
+          },
+          child: Image(
+            image: AssetImage(AppIcons.calendar),
+            color: Colors.white,
+          ),
+        ),
+      ),
+      const SizedBox(
+        width: 20,
+      ),
+    ];
   }
 }

@@ -79,12 +79,12 @@ class RoutePage {
       binding: SettingsBinding(),
       middlewares: [AuthMiddleware()],
     ),
-    GetPage(
-      name: Routes.rPublicdashboard,
-      page: () => const PublicDashboard(),
-      binding: PublicBinding(),
-      // middlewares: [AuthMiddleware()],
-    ),
+    // GetPage(
+    //   name: Routes.rPublicdashboard,
+    //   page: () => const PublicDashboard(),
+    //   binding: PublicBinding(),
+    //   // middlewares: [AuthMiddleware()],
+    // ),
     // GetPage(name: Routes.RATING, page: () => RatingView(), binding: RatingBinding(), middlewares: [AuthMiddleware()]),
     // GetPage(name: Routes.CHAT, page: () => ChatsView(), binding: RootBinding(), middlewares: [AuthMiddleware()]),
     // GetPage(name: Routes.SETTINGS, page: () => SettingsView(), binding: SettingsBinding()),
