@@ -26,9 +26,10 @@ class WarrantyScreen extends GetView<WarrantyController> {
 
     return Scaffold(
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(64.0),
+        preferredSize: Size.fromHeight(84.0),
         child: WarrantyAppbar(),
       ),
+      backgroundColor: Colors.grey,
       body: StreamBuilder(
         stream: _api,
         builder: (context, AsyncSnapshot<dynamic> snap) {

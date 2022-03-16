@@ -18,47 +18,58 @@ class WarrantyItem extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-        height: size.height * 0.15,
-        margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+        height: size.height * 0.10,
+        margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
         decoration: BoxDecoration(
           color: Colors.white,
-          gradient: LinearGradient(colors: [
-            // AppColor.gradient1,
-            AppColor.gradient2,
-            AppColor.gradient3,
-            AppColor.gradient4,
-          ]),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.grey,
-              // spreadRadius: 1,
-              blurRadius: 1,
-            ),
-          ],
+          borderRadius: BorderRadius.circular(15),
+          // gradient: LinearGradient(colors: [
+          //   // AppColor.gradient1,
+          //   AppColor.gradient2,
+          //   AppColor.gradient3,
+          //   AppColor.gradient4,
+          // ]),
+          // boxShadow: const [
+          //   BoxShadow(
+          //     color: Colors.grey,
+          //     // spreadRadius: 1,
+          //     blurRadius: 1,
+          //   ),
+          // ],
         ),
-        child: Column(
+        child: Row(
           children: [
             Expanded(
+              flex: 4,
+              child: Center(child: textDesign(item.itemname)),
+            ),
+            Expanded(
               flex: 1,
+              child: Center(child: textDesign(item.warrantyyearcount)),
+            ),
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: textDesign(
+                  MyDateCalculation().timestampToDate(item.warrantytill),
+                ),
+              ),
+            ),
+            // Days count
+            Expanded(
+              flex: 2,
               child: Row(
                 children: [
                   Expanded(
-                    flex: 6,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 28, vertical: 4),
-                      child: Align(
-                        // color: Colors.grey,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          item.itemname,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: AppColor.textSecondarycolor,
-                          ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        textDesign(
+                          MyDateCalculation().remainingDays(item.warrantytill),
                         ),
-                      ),
+                        Text('Days'),
+                      ],
                     ),
                   ),
                   // Show Archive icon
@@ -113,97 +124,22 @@ class WarrantyItem extends StatelessWidget {
                 ],
               ),
             ),
-           
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  // Warranty Count
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        textDesign(item.warrantyyearcount, false),
-                        const SizedBox(height: 10),
-                        textDesign('Year', true)
-                      ],
-                    ),
-                  ),
-                  // Warranty Till
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        textDesign(
-                            MyDateCalculation()
-                                .timestampToDate(item.warrantytill),
-                            false),
-                        const SizedBox(height: 10),
-                        textDesign('Date', true)
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        RichText(
-                          overflow: TextOverflow.ellipsis,
-                          text: TextSpan(children: [
-                            TextSpan(
-                              text: MyDateCalculation()
-                                  .remainingDays(item.warrantytill),
-                              style: TextStyle(
-                                color: int.tryParse(MyDateCalculation()
-                                                .remainingDays(
-                                                    item.warrantytill)) !=
-                                            null &&
-                                        int.tryParse(MyDateCalculation()
-                                                .remainingDays(
-                                                    item.warrantytill))! >
-                                            0
-                                    ? AppColor.successColor
-                                    : AppColor.dangerColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            TextSpan(
-                              text: MyDateCalculation()
-                                          .remainingDays(item.warrantytill) !=
-                                      "Lifetime"
-                                  ? ' Days'
-                                  : null,
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ]),
-                        ),
-                        const SizedBox(height: 10),
-                        textDesign('Remaining', true)
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
           ],
         ));
   }
 
-  Text textDesign(String val, bool isStyle) {
-    return Text(
-      val,
-      style: isStyle
-          ? const TextStyle(fontSize: 12)
-          : const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+  Padding textDesign(String val) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+      child: Text(
+        val,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            overflow: TextOverflow.ellipsis),
+        maxLines: 2,
+      ),
     );
   }
 

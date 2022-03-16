@@ -10,8 +10,6 @@ import 'package:warranty_track/app/modules/feedback/binding/feedback_binding.dar
 import 'package:warranty_track/app/modules/feedback/view/feedback_screen.dart';
 import 'package:warranty_track/app/modules/home/bindings/home_binding.dart';
 import 'package:warranty_track/app/modules/home/view/home_screen.dart';
-import 'package:warranty_track/app/modules/public_dashboard/binding/public_binding.dart';
-import 'package:warranty_track/app/modules/public_dashboard/view/public_dashboard.dart';
 import 'package:warranty_track/app/modules/settings/binding/settings_binding.dart';
 import 'package:warranty_track/app/modules/settings/view/settings_screen.dart';
 import 'package:warranty_track/app/modules/transaction/binding/transaction_binding.dart';

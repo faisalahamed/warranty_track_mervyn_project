@@ -54,16 +54,16 @@ class MyDateCalculation {
     String month = '';
     switch (number) {
       case 1:
-        month = "January";
+        month = "Jan";
         break;
       case 2:
-        month = "February";
+        month = "Feb";
         break;
       case 3:
-        month = "March";
+        month = "Mar";
         break;
       case 4:
-        month = "April";
+        month = "Apr";
         break;
       case 5:
         month = "May";
@@ -75,19 +75,19 @@ class MyDateCalculation {
         month = "July";
         break;
       case 8:
-        month = "August";
+        month = "Aug";
         break;
       case 9:
-        month = "September";
+        month = "Sep";
         break;
       case 10:
-        month = "October";
+        month = "Oct";
         break;
       case 11:
-        month = "November";
+        month = "Nov";
         break;
       case 12:
-        month = "December";
+        month = "Dec";
         break;
     }
     return month;
