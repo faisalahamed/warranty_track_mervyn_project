@@ -150,4 +150,12 @@ class AuthService extends GetxService {
       ),
     );
   }
+
+  String getcurrentUserEmail() {
+    if (user != null && user!.email != null) {
+      return user!.email!;
+    } else {
+      return '';
+    }
+  }
 }

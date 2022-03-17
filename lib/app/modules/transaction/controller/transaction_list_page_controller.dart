@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:warranty_track/app/model/transaction_model.dart';
 import 'package:warranty_track/app/repository/transaction_repository.dart';
@@ -8,10 +9,19 @@ class TransactionListController extends GetxController {
       Rx<List<TransactionModel>>([]);
   final Rx<List<TransactionModel>> globalTransactionStreamList =
       Rx<List<TransactionModel>>([]);
+  List<TransactionModel> _defaultTransactionList = [];
+  List<TransactionModel> _defaultglobalTransactionList = [];
 
-  var searchCategory = Rx<List<String>>([]);
+  Rx<List<String>> searchCategory = Rx<List<String>>([]);
+  // Rx<List<String>> searchCategory = Rx<List<String>>(['As', 'who']);
 
-  RxInt selectedTab = 0.obs;
+  List<TransactionModel> get globalTransactionList =>
+      globalTransactionStreamList.value;
+  List<TransactionModel> get transactionList => transactionStreamList.value;
+
+  // RxInt selectedTab = 0.obs;
+  TextEditingController globalSearchText = TextEditingController();
+  TextEditingController myTransactionSearchText = TextEditingController();
 
   @override
   void onInit() {
@@ -19,6 +29,7 @@ class TransactionListController extends GetxController {
     globalTransactionStreamList
         .bindStream(DatabaseService().globalTransactionListStream());
     // isLoading.value = false;
+
     super.onInit();
   }
 
@@ -29,37 +40,96 @@ class TransactionListController extends GetxController {
         .toList();
   }
 
-  // Stream<List<TransactionModel>>
-  // search() {
-  //   List<TransactionModel> oldList = transactionStreamList.value;
-  //   List<TransactionModel> newList = [];
+  void globalTransactionsearch() {
+    if (_defaultglobalTransactionList.length == 0) {
+      _defaultglobalTransactionList = globalTransactionStreamList.value;
+      List<TransactionModel> oldList = globalTransactionStreamList.value;
+      List<TransactionModel> newList = [];
 
-  //   for (var i = 0; i < oldList.length; i++) {
-  //     if (searchCategory.value
-  //         .any((element) => element == oldList[i].category)) {
-  //       newList.add(oldList[i]);
-  //     }
+      for (var i = 0; i < oldList.length; i++) {
+        if (oldList[i]
+                .itemname
+                .toLowerCase()
+                .contains(globalSearchText.text.toLowerCase()) ||
+            oldList[i]
+                .shoppurchached!
+                .toLowerCase()
+                .contains(globalSearchText.text.toLowerCase())) {
+          newList.add(oldList[i]);
+        }
+      }
+      if (globalSearchText.text.isNotEmpty) {
+        globalTransactionStreamList.value = newList;
+      } else {
+        globalTransactionStreamList
+            .bindStream(DatabaseService().globalTransactionListStream());
+      }
+    } else {
+      List<TransactionModel> oldList = _defaultglobalTransactionList;
+      List<TransactionModel> newList = [];
 
-  //     if (searchCategory.value.isNotEmpty) {
-  //       print(searchCategory.value.contains(oldList[i].category));
-  //       searchCategory.value.forEach((element) {
-  //         if (oldList[i].category == element) {
-  //           newList.add(oldList[i]);
-  //         }
-  //       });
-  //     }
-  //   }
-  //   transactionStreamList.value = newList;
-  //   if (searchCategory.value.isEmpty) {
-  //     transactionStreamList.value = newList;
-  //     print('================empty category');
-  //   } else {
-  //     transactionStreamList
-  //         .bindStream(DatabaseService().transactionListStream());
-  //   }
-  //   // transactionStreamList.refresh();
-  //   print(searchCategory.value);
-  //   // print('searching');
-  // }
+      for (var i = 0; i < oldList.length; i++) {
+        if (oldList[i]
+                .itemname
+                .toLowerCase()
+                .contains(globalSearchText.text.toLowerCase()) ||
+            oldList[i]
+                .shoppurchached!
+                .toLowerCase()
+                .contains(globalSearchText.text.toLowerCase()) ||
+            searchCategory.value.contains(oldList[i].category)) {
+          newList.add(oldList[i]);
+        }
+      }
+      if (globalSearchText.text.isNotEmpty) {
+        globalTransactionStreamList.value = newList;
+      } else {
+        globalTransactionStreamList.value = _defaultglobalTransactionList;
+        // globalTransactionStreamList
+        //     .bindStream(DatabaseService().globalTransactionListStream());
+      }
+    }
+  }
 
+  void myTransactionsearch() {
+    if (_defaultTransactionList.length == 0) {
+      _defaultTransactionList = transactionStreamList.value;
+      List<TransactionModel> oldList = transactionStreamList.value;
+      List<TransactionModel> newList = [];
+
+      for (var i = 0; i < oldList.length; i++) {
+        if (oldList[i]
+            .itemname
+            .toLowerCase()
+            .contains(myTransactionSearchText.text.toLowerCase())) {
+          newList.add(oldList[i]);
+        }
+      }
+      if (myTransactionSearchText.text.isNotEmpty) {
+        transactionStreamList.value = newList;
+      } else {
+        transactionStreamList
+            .bindStream(DatabaseService().transactionListStream());
+      }
+    } else {
+      List<TransactionModel> oldList = _defaultTransactionList;
+      List<TransactionModel> newList = [];
+
+      for (var i = 0; i < oldList.length; i++) {
+        if (oldList[i]
+            .itemname
+            .toLowerCase()
+            .contains(myTransactionSearchText.text.toLowerCase())) {
+          newList.add(oldList[i]);
+        }
+      }
+      if (myTransactionSearchText.text.isNotEmpty) {
+        transactionStreamList.value = newList;
+      } else {
+        transactionStreamList.value = _defaultTransactionList;
+        // globalTransactionStreamList
+        //     .bindStream(DatabaseService().globalTransactionListStream());
+      }
+    }
+  }
 }
